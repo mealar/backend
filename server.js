@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const session = require("express-session");
 const cors = require("cors");
-const restaurantRoute = require("./routes/restaurantRoute");
+const routes = require("./routes");
 
 dotenv.config();
 
@@ -50,7 +50,7 @@ app.use(
   })
 );
 
-app.use("/api/v1/restaurant", restaurantRoute);
+app.use("/api/v1", routes);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

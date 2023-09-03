@@ -1,7 +1,8 @@
-const Restaurant = require("../models/restaurantModel");
 const expressAsyncHandler = require("express-async-handler");
+const { Restaurant } = require("../models/");
+const { restaurantValidation } = require("../validations");
 
-exports.getAllRestaurants = expressAsyncHandler(async (req, res) => {
+const getAllRestaurants = expressAsyncHandler(async (req, res) => {
   try {
     const restaurants = await Restaurant.find();
     res.json(restaurants);
@@ -10,8 +11,9 @@ exports.getAllRestaurants = expressAsyncHandler(async (req, res) => {
   }
 });
 
-// Yeni bir restoran oluşturma
-exports.createRestaurant = expressAsyncHandler(async (req, res) => {
+const createRestaurant = expressAsyncHandler(async (req, res) => {
+  const { error } = restaurantValidation.createRestaurantValidate(req.body);
+  if (error) return res.status(400).send({ message: error.details[0].message });
   const restaurant = new Restaurant(req.body);
   try {
     const newRestaurant = await restaurant.save();
@@ -22,7 +24,7 @@ exports.createRestaurant = expressAsyncHandler(async (req, res) => {
 });
 
 // Belirli bir restoranı görüntüleme
-exports.getRestaurant = expressAsyncHandler(async (req, res) => {
+const getRestaurant = expressAsyncHandler(async (req, res) => {
   const restaurant = await Restaurant.findById(req.params.id);
   if (restaurant) {
     res.send(restaurant);
@@ -31,7 +33,7 @@ exports.getRestaurant = expressAsyncHandler(async (req, res) => {
   }
 });
 
-exports.updateRestaurant = expressAsyncHandler(async (req, res) => {
+const updateRestaurant = expressAsyncHandler(async (req, res) => {
   try {
     const {
       name,
@@ -85,7 +87,7 @@ exports.updateRestaurant = expressAsyncHandler(async (req, res) => {
   }
 });
 
-exports.deleteRestaurant = expressAsyncHandler(async (req, res) => {
+const deleteRestaurant = expressAsyncHandler(async (req, res) => {
   const restaurant = await Restaurant.findById(req.params.id);
 
   if (restaurant) {
@@ -95,3 +97,11 @@ exports.deleteRestaurant = expressAsyncHandler(async (req, res) => {
     res.status(404).send({ message: "Restaurant Not Found" });
   }
 });
+
+module.exports = {
+  createRestaurant,
+  deleteRestaurant,
+  getAllRestaurants,
+  getRestaurant,
+  updateRestaurant,
+};
