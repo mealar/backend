@@ -1,56 +1,38 @@
+//----General Imports----//
 const express = require("express");
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const session = require("express-session");
 const cors = require("cors");
 const routes = require("./routes");
-
+ 
+//----Local Imports----//
+const MongoDbConnection=require("./configurations/mongoDbConfig");
+const { sessionConfig, corsConfig,cookieParserConfig,mongoSanitizeConfig,setHeadersConfig } = require("./configurations/generalConfigs");
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("connected to db");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+
 
 const app = express();
+ 
 
-app.use(
-  session({
-    secret: "somethingsecretgoeshere",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  })
-);
-app.use(
-  cors({
-    origin: process.env.FRONTEND_BASE_URL,
-    credentials: true,
-    optionSuccessStatus: 200,
-  })
-);
-app.use(
-  cookieParser({
-    origin: process.env.FRONTEND_BASE_URL,
-    credentials: true,
-  })
-);
+app.use(session(sessionConfig));
+app.use(cors(corsConfig));
+//app.use(cookieParser(cookieParserConfig));
+app.use((req, res, next) => {setHeadersConfig(res);next();});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  mongoSanitize({
-    replaceWith: "_",
-  })
-);
+app.use(mongoSanitize(mongoSanitizeConfig));
 
-app.use("/api/v1", routes);
+app.get('/', (req, res) => {
+  res.render('signin', { showSignInButton: true });
+});
+
+app.use("/", routes);
+
+MongoDbConnection();
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
