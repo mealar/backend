@@ -26,9 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(mongoSanitize(mongoSanitizeConfig));
 
-app.get('/', (req, res) => {
-  res.render('signin', { showSignInButton: true });
-});
+
 
 app.use("/", routes);
 
