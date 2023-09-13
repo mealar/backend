@@ -3,6 +3,6 @@ const router = express.Router();
 const { dishController } = require("../controllers");
 
 router.post("/", dishController.createDish);
-router.post("/:dishId", dishController.additonToDish);
+router.post("/addition", dishController.additionToDish);
 
 module.exports = router;

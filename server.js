@@ -6,29 +6,33 @@ const mongoSanitize = require("express-mongo-sanitize");
 const session = require("express-session");
 const cors = require("cors");
 const routes = require("./routes");
- 
+
 //----Local Imports----//
-const MongoDbConnection=require("./configurations/mongoDbConfig");
-const { sessionConfig, corsConfig,cookieParserConfig,mongoSanitizeConfig,setHeadersConfig } = require("./configurations/generalConfigs");
+const MongoDbConnection = require("./configurations/mongoDbConfig");
+const {
+  sessionConfig,
+  corsConfig,
+  cookieParserConfig,
+  mongoSanitizeConfig,
+  setHeadersConfig,
+} = require("./configurations/generalConfigs");
 dotenv.config();
 
-
-
 const app = express();
- 
 
 app.use(session(sessionConfig));
 app.use(cors(corsConfig));
 //app.use(cookieParser(cookieParserConfig));
-app.use((req, res, next) => {setHeadersConfig(res);next();});
+app.use((req, res, next) => {
+  setHeadersConfig(res);
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(mongoSanitize(mongoSanitizeConfig));
 
-
-
-app.use("/", routes);
+app.use("/api/v1", routes);
 
 MongoDbConnection();
 

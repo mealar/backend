@@ -24,15 +24,11 @@ const menuSchema = new mongoose.Schema(
         items: [mongoose.ObjectId],
       },
     ],
-    sizeOptions: [
+    additions: [
       {
-        name: {
-          type: String,
-          enum: ["small", "standart", "large"],
-          required: true,
-        },
-        price: Number,
-        calories: String,
+        groupId: mongoose.ObjectId,
+        additionObjectIds: [mongoose.ObjectId],
+        default: mongoose.ObjectId,
       },
     ],
     isActive: Boolean,

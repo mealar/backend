@@ -18,24 +18,22 @@ const createDish = expressAsyncHandler(async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-const additonToDish = expressAsyncHandler(async (req, res) => {
-  const { error } = dishValidation.createDish(req.body);
+
+const additionToDish = expressAsyncHandler(async (req, res) => {
+  const { error } = dishValidation.additionToDish(req.body);
   if (error) return res.status(400).send({ message: error.details[0].message });
-  const { dishId } = req.params;
-  const {} = req.body;
+  const { dishId, addition } = req.body;
   const dish = await Dish.findOne({ _id: dishId });
   if (!dish) {
     res.status(404).send({ message: "Dish Not Found" });
   }
-  try {
-    await dish.save();
-    res.status(201).json(dish);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  dish.additions.push(addition);
+  console.log(addition);
+  await dish.save();
+  res.status(201).json(dish);
 });
 
 module.exports = {
   createDish,
-  additonToDish,
+  additionToDish,
 };

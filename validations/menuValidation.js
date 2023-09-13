@@ -35,7 +35,18 @@ const createMenuValidate = (data) => {
   });
   return schema.validate(data);
 };
-
+const additionToMenu = (data) => {
+  const schema = Joi.object({
+    menuId: Joi.string().custom(objectId),
+    addition: {
+      groupId: Joi.string().custom(objectId),
+      additionObjectIds: Joi.array().items(Joi.string().custom(objectId)),
+      default: Joi.string().custom(objectId),
+    },
+  });
+  return schema.validate(data);
+};
 module.exports = {
   createMenuValidate,
+  additionToMenu,
 };

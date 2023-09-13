@@ -19,6 +19,20 @@ const createMenu = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const additionToMenu = expressAsyncHandler(async (req, res) => {
+  const { error } = menuValidation.additionToMenu(req.body);
+  if (error) return res.status(400).send({ message: error.details[0].message });
+  const { menuId, addition } = req.body;
+  const menu = await Menu.findOne({ _id: menuId });
+  if (!menu) {
+    res.status(404).send({ message: "Menu Not Found" });
+  }
+  menu.additions.push(addition);
+  await menu.save();
+  res.status(201).json(menu);
+});
+
 module.exports = {
   createMenu,
+  additionToMenu,
 };
