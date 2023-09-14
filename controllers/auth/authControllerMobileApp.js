@@ -93,6 +93,17 @@ const signOut = (req, res) => {
   });
 };
 
+/**
+    * For getting the refresh token from token cache
+    * @returns {string} refresh token
+    */
+const getRefreshTokenFromCache = () => {
+  const tokenCache = msalInstanceMobileApp.getTokenCache().serialize();
+  const refreshTokenObject = JSON.parse(tokenCache).RefreshToken;
+  const refreshToken = refreshTokenObject[Object.keys(refreshTokenObject)[0]].secret;
+  return refreshToken;
+};
+
 
 /**
  * For getting the tokens with authorization code
@@ -101,21 +112,28 @@ const getTokensWithAuthorizationCode = async (req, res, next) => {
   const code = req.query.code;
   try {
     const response = await msalInstanceMobileApp.acquireTokenByCode(tokenRequestParameters(code));
-    /**
-    * For getting the refresh token from token cache
-    * @returns {string} refresh token
-    */
-    const refreshToken = () => {
-      const tokenCache = msalInstanceMobileApp.getTokenCache().serialize();
-      const refreshTokenObject = JSON.parse(tokenCache).RefreshToken;
-      const refreshToken = refreshTokenObject[Object.keys(refreshTokenObject)[0]].secret;
-      return refreshToken;
-    };
-    return { ...response, refreshToken: refreshToken(), authenticated: true };
+    const refreshToken=getRefreshTokenFromCache();
+    return { ...response, refreshToken, authenticated: true };
   } catch (error) {
     return error;
   }
 };
+
+/**
+ * For getting the tokens with refresh token
+ */
+const getTokenWithRefreshToken = async (req, res, next) => {
+  const refreshToken = req.query.refreshToken;
+  try {
+    const response = await msalInstanceMobileApp.acquireTokenByRefreshToken(refreshTokenParameters(refreshToken));
+    const refreshToken=getRefreshTokenFromCache();
+    res.status(200).json({ ...response, refreshToken, authenticated: true });
+  } catch (error) {
+    next({ message: error.message });
+  }
+};
+
+
 /**
  * For handling authentication redirects
  */
@@ -159,4 +177,5 @@ module.exports = {
   handleRedirects,
   editProfile,
   passwordReset,
+  getTokenWithRefreshToken
 }; 

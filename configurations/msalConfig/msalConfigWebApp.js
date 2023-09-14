@@ -46,6 +46,7 @@ const tokenRequestParameters =(code) => ({
   redirectUri: process.env.REDIRECT_URI_WEB_APP,
   grantType: "authorization_code",
   scopes: ["User.Read"],
+  enableSpaAuthorizationCode: true,
 });
 
 /**
