@@ -6,6 +6,8 @@ const additonGroupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    additionObjects: [{ type: mongoose.ObjectId, ref: "addition" }],
+    default: mongoose.ObjectId,
     createdBy: {
       type: String,
       required: true,
@@ -17,6 +19,6 @@ const additonGroupSchema = new mongoose.Schema(
   }
 );
 
-const additonGroup = mongoose.model("additonGroup", additonGroupSchema);
+const additionGroup = mongoose.model("additionGroup", additonGroupSchema);
 
-module.exports = additonGroup;
+module.exports = additionGroup;

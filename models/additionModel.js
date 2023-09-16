@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const additonSchema = new mongoose.Schema(
+const additionSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -20,6 +20,6 @@ const additonSchema = new mongoose.Schema(
   }
 );
 
-const additon = mongoose.model("additon", additonSchema);
+const addition = mongoose.model("addition", additionSchema);
 
-module.exports = additon;
+module.exports = addition;

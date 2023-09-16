@@ -14,13 +14,7 @@ const dishSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    additions: [
-      {
-        groupId: mongoose.ObjectId,
-        additionObjectIds: [mongoose.ObjectId],
-        default: mongoose.ObjectId,
-      },
-    ],
+    additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
     ingredients: [
       {
         name: String,

@@ -24,13 +24,7 @@ const menuSchema = new mongoose.Schema(
         items: [mongoose.ObjectId],
       },
     ],
-    additions: [
-      {
-        groupId: mongoose.ObjectId,
-        additionObjectIds: [mongoose.ObjectId],
-        default: mongoose.ObjectId,
-      },
-    ],
+    additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
     isActive: Boolean,
     createdBy: String,
     expiryDateTime: Date,
