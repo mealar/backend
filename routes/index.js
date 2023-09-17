@@ -7,6 +7,8 @@ const additionRoute = require("./addition.route");
 const additionGroupRoute = require("./additionGroup.route");
 const authRoutesMobileApp = require("./auth/authRoutesMobileApp");
 const authRoutesWebApp = require("./auth/authRoutesWebApp");
+const tableRoute = require("./table.route");
+const orderRoute = require("./order.route");
 
 const router = express.Router();
 
@@ -39,6 +41,14 @@ const defaultRoutes = [
   {
     path: "/authWebApp",
     route: authRoutesWebApp,
+  },
+  {
+    path: "/table",
+    route: tableRoute,
+  },
+  {
+    path: "/order",
+    route: orderRoute,
   },
 ];
 defaultRoutes.forEach((route) => {

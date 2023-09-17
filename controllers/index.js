@@ -6,3 +6,5 @@ module.exports.additionController = require("./addition.controller");
 module.exports.additonGroupController = require("./additonGroup.controller");
 module.exports.authControllerMobileApp = require("./auth/authControllerMobileApp");
 module.exports.authControllerWebApp = require("./auth/authControllerWebApp");
+module.exports.tableController = require("./table.controller");
+module.exports.orderController = require("./order.controller");
