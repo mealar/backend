@@ -1,6 +1,6 @@
-module.exports.Restaurant = require("./restaurantModel");
-module.exports.Category = require("./categoryModel");
-module.exports.Menu = require("./menuModel");
-module.exports.Dish = require("./dishModel");
-module.exports.Addition = require("./additionModel");
-module.exports.AdditionGroup = require("./additionGroupModel");
+module.exports.Restaurant = require("./restaurant.model");
+module.exports.Category = require("./category.model");
+module.exports.Menu = require("./menu.model");
+module.exports.Dish = require("./dish.model");
+module.exports.Addition = require("./addition.model");
+module.exports.AdditionGroup = require("./additionGroup.model");

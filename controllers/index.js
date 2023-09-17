@@ -1,8 +1,8 @@
-module.exports.restaurantController = require("./restaurantController");
-module.exports.categoryController = require("./categoryController");
-module.exports.menuController = require("./menuController");
-module.exports.dishController = require("./dishController");
-module.exports.additionController = require("./additionController");
-module.exports.additonGroupController = require("./additonGroupController");
+module.exports.restaurantController = require("./restaurant.controller");
+module.exports.categoryController = require("./category.controller");
+module.exports.menuController = require("./menu.controller");
+module.exports.dishController = require("./dish.controller");
+module.exports.additionController = require("./addition.controller");
+module.exports.additonGroupController = require("./additonGroup.controller");
 module.exports.authControllerMobileApp = require("./auth/authControllerMobileApp");
 module.exports.authControllerWebApp = require("./auth/authControllerWebApp");

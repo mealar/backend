@@ -1,5 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
-const { Restaurant } = require("../models/");
+const { Restaurant } = require("../models");
 const { restaurantValidation } = require("../validations");
 
 const getAllRestaurants = expressAsyncHandler(async (req, res) => {
