@@ -10,10 +10,14 @@ const createOrder = (data) => {
   const schema = Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
     deliveryTable: Joi.number().required(),
-    estimatedPreparationTime: Joi.number().required(),
-    actualPreparationTime: Joi.number().required(),
-    loyaltyPointsEarned: Joi.number().required(),
     dishes: Joi.array().items({
+      dishId: Joi.string().custom(objectId),
+      additions: Joi.array().items({
+        additionGroupId: Joi.string().custom(objectId),
+        additionId: Joi.string().custom(objectId),
+      }),
+    }),
+    menus: Joi.array().items({
       dishId: Joi.string().custom(objectId),
       additions: Joi.array().items({
         additionGroupId: Joi.string().custom(objectId),

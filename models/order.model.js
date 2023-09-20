@@ -10,17 +10,21 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    actualPreparationTime: { type: Number, required: true },
-    estimatedPreparationTime: { type: Number, required: true },
-    deliveryTime: {
-      type: Date,
-      required: true,
-    },
-    loyaltyPointsEarned: { type: Number, required: true },
-    customerFeedback: { type: String }, //order sonrası mı???
+
     dishes: [
       {
         dishId: { type: mongoose.ObjectId, ref: "Dish" },
+        additions: [
+          {
+            additionGroupId: { type: mongoose.ObjectId, ref: "additionGroup" },
+            additionId: { type: mongoose.ObjectId, ref: "addition" },
+          },
+        ],
+      },
+    ],
+    menus: [
+      {
+        dishId: { type: mongoose.ObjectId, ref: "Menu" },
         additions: [
           {
             additionGroupId: { type: mongoose.ObjectId, ref: "additionGroup" },

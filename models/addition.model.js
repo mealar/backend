@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const additionSchema = new mongoose.Schema(
   {
+    groupId: { type: mongoose.ObjectId, ref: "additionGroup" },
     name: {
       type: String,
       required: true,
@@ -13,6 +14,9 @@ const additionSchema = new mongoose.Schema(
     calories: {
       type: String,
       required: true,
+    },
+    default: {
+      type: Boolean,
     },
   },
   {

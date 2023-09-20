@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 
 const additonGroupSchema = new mongoose.Schema(
   {
+    dishId: mongoose.ObjectId,
+    menuId: mongoose.ObjectId,
     name: {
       type: String,
       required: true,
     },
     additionObjects: [{ type: mongoose.ObjectId, ref: "addition" }],
-    default: mongoose.ObjectId,
+    default: { type: mongoose.ObjectId, ref: "addition" },
     createdBy: {
       type: String,
       required: true,

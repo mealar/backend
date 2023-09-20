@@ -33,13 +33,7 @@ const createDish = (data) => {
   });
   return schema.validate(data);
 };
-const additionToDish = (data) => {
-  const schema = Joi.object({
-    dishId: Joi.string().custom(objectId),
-    groupId: Joi.string().custom(objectId),
-  });
-  return schema.validate(data);
-};
+
 const getDishes = (data) => {
   const schema = Joi.object({
     restaurantId: Joi.string().custom(objectId),
@@ -49,6 +43,5 @@ const getDishes = (data) => {
 
 module.exports = {
   createDish,
-  additionToDish,
   getDishes,
 };

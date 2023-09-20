@@ -19,23 +19,6 @@ const createDish = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const additionToDish = expressAsyncHandler(async (req, res) => {
-  const { error } = dishValidation.additionToDish(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
-  const { dishId, groupId } = req.body;
-  const dish = await Dish.findOne({ _id: dishId });
-  if (!dish) {
-    res.status(404).send({ message: "Dish Not Found" });
-  }
-  const group = await AdditionGroup.findOne({ _id: groupId });
-  if (!group) {
-    res.status(404).send({ message: "Group Not Found" });
-  }
-  dish.additions.push(group._id);
-  await dish.save();
-  res.status(201).json(dish);
-});
-
 const getDishes = expressAsyncHandler(async (req, res) => {
   const { error } = dishValidation.getDishes(req.body);
   if (error) return res.status(400).send({ message: error.details[0].message });
@@ -44,14 +27,23 @@ const getDishes = expressAsyncHandler(async (req, res) => {
   if (!restaurant) {
     res.status(404).send({ message: "Restaurant Not Found" });
   }
-  const dishes = await Dish.find().populate({
-    path: "additions",
-    select: "_id name additionObjects",
-    populate: {
-      path: "additionObjects",
-      select: "_id name price calories",
-    },
-  });
+  const dishes = await Dish.find()
+    .populate({
+      path: "additions",
+      select: "_id name additionObjects default",
+      populate: {
+        path: "additionObjects",
+        select: "_id name price calories",
+      },
+    })
+    .populate({
+      path: "additions",
+      select: "_id name additionObjects default",
+      populate: {
+        path: "default",
+        select: "_id name price calories",
+      },
+    });
   if (!dishes) {
     res.status(404).send({ message: "Dishes Not Found" });
   }
@@ -60,6 +52,5 @@ const getDishes = expressAsyncHandler(async (req, res) => {
 
 module.exports = {
   createDish,
-  additionToDish,
   getDishes,
 };

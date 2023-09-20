@@ -4,6 +4,5 @@ const { dishController } = require("../controllers");
 
 router.post("/", dishController.createDish);
 router.get("/", dishController.getDishes);
-router.post("/addition", dishController.additionToDish);
 
 module.exports = router;

@@ -7,9 +7,11 @@ const objectId = (value, helpers) => {
 };
 const createAdditionGroup = (data) => {
   const schema = Joi.object({
+    menuId: Joi.string().custom(objectId),
+    dishId: Joi.string().custom(objectId),
     createdBy: Joi.string().required(),
     name: Joi.string().required(),
-  });
+  }).xor("menuId", "dishId");
   return schema.validate(data);
 };
 

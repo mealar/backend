@@ -14,6 +14,7 @@ const createAddition = expressAsyncHandler(async (req, res) => {
   try {
     const newAddition = await addition.save();
     group.additionObjects.push(newAddition._id);
+    if (req.body.default) group.default = newAddition._id;
     await group.save();
     res.status(201).json(newAddition);
   } catch (err) {
