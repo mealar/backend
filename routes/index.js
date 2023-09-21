@@ -37,10 +37,11 @@ const defaultRoutes = [
     path: "/addition-group",
     route: additionGroupRoute,
   },
-  { path: "/authMobileApp", route: authRoutesMobileApp },
   {
-    path: "/authWebApp",
-    route: authRoutesWebApp,
+    path: "/authMobileApp", route: authRoutesMobileApp
+  },
+  {
+    path: "/authWebApp", route: authRoutesWebApp,
   },
   {
     path: "/table",

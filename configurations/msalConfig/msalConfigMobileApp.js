@@ -65,7 +65,7 @@ const authCodeRequestParameters  = {
   }
 
 const msalInstanceMobileApp = new msal.ConfidentialClientApplication(confidentialClientConfigMobileApp);
-const myMSALObj = new msal.PublicClientApplication(confidentialClientConfigMobileApp);
+
 
 module.exports = {
     msalConfigMobileApp: confidentialClientConfigMobileApp,

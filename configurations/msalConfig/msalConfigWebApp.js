@@ -62,7 +62,6 @@ const refreshTokenParameters = (refreshToken) => ({
  
 const msalInstanceWebApp = new msal.ConfidentialClientApplication(confidentialClientConfigWebApp);
 
-const myMSALObj = new msal.PublicClientApplication(confidentialClientConfigWebApp);
 
 module.exports = {
   msalConfigWebApp: confidentialClientConfigWebApp,

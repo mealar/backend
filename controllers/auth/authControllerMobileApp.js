@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { msalConfigMobileApp, msalInstanceMobileApp, authCodeRequestParameters,
+const {  msalInstanceMobileApp, authCodeRequestParameters,
   tokenRequestParameters,
   refreshTokenParameters, APP_STATES } = require("../../configurations/msalConfig/msalConfigMobileApp");
 
@@ -87,10 +87,14 @@ const passwordReset = async (req, res) => {
   }
 };
 
-const signOut = (req, res) => {
-  req.session.destroy(() => {
-    res.redirect(process.env.LOGOUT_ENDPOINT_MOBILE_APP);
-  });
+const signOut = async (req, res,next) => {
+  try {
+    await msalInstanceWebApp.clearCache();
+    res.status(200).json({ signOutRequestUrl:process.env.LOGOUT_ENDPOINT_MOBILE_APP ,signedOut: true });
+  } 
+  catch (error) {
+    next(error);
+  }
 };
 
 /**

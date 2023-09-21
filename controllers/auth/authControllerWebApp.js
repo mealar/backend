@@ -7,7 +7,7 @@ const { msalInstanceWebApp, authCodeRequestParameters, tokenRequestParameters, }
  * For generating the authorization url
  * @return {object} authorization code request url and params inside of url
  */
-const GenerateAuthorizationCodeRequestUrl = async (req, res, next) => {
+const generateAuthorizationCodeRequestUrl = async (req, res, next) => {
   try {
     const response = await msalInstanceWebApp.getAuthCodeUrl(authCodeRequestParameters);
     const url = new URL(response);
@@ -36,6 +36,7 @@ const getRefreshTokenFromCache = () => {
  */
 const getTokensWithAuthorizationCode = async (req, res, next) => {
   const code = req.query.code;
+  console.log("code",code);
   try {
     const response = await msalInstanceWebApp.acquireTokenByCode(tokenRequestParameters(code));
     const refreshToken = getRefreshTokenFromCache();
@@ -48,9 +49,9 @@ const getTokensWithAuthorizationCode = async (req, res, next) => {
  * For getting the tokens with refresh token
  */
 const getTokenWithRefreshToken = async (req, res, next) => {
-  const refreshToken = req.query.refreshToken;
+  const refreshTokenFromReq = req.query.refreshToken;
   try {
-    const response = await msalInstanceWebApp.acquireTokenByRefreshToken(refreshTokenParameters(refreshToken));
+    const response = await msalInstanceWebApp.acquireTokenByRefreshToken(refreshTokenParameters(refreshTokenFromReq));
     const refreshToken = getRefreshTokenFromCache();
     res.status(200).json({ ...response, refreshToken, authenticated: true });
   } catch (error) {
@@ -59,19 +60,24 @@ const getTokenWithRefreshToken = async (req, res, next) => {
 };
 
 
-const signOutUser = (req, res) => {
-  req.session.destroy(() => {
-    res.redirect(process.env.LOGOUT_ENDPOINT_MOBILE_APP);
-  });
+const signOut = async (req, res,next) => {
+  try {
+    await msalInstanceWebApp.clearCache();
+    res.status(200).json({ signOutRequestUrl:process.env.LOGOUT_ENDPOINT_MOBILE_APP ,signedOut: true });
+  } 
+  catch (error) {
+    next(error);
+  }
 };
 
 
 
 
+
 module.exports = {
-  GenerateAuthorizationCodeRequestUrl,
+  generateAuthorizationCodeRequestUrl,
   getTokensWithAuthorizationCode,
   getTokenWithRefreshToken,
-  signOutUser,
+  signOut,
 };
 
