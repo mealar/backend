@@ -57,12 +57,16 @@ const tokenRequestParameters =(code) => ({
 const refreshTokenParameters = (refreshToken) => ({
   refreshToken: refreshToken,
   scopes: ["User.Read"],
+  authority: process.env.CLOUD_INSTANCE + process.env.TENANT_ID_WEB_APP,
+  redirectUri: process.env.REDIRECT_URI_WEB_APP,
+  grantType: "refresh_token",
+  forceCache: true,
+  
 });
 
  
 const msalInstanceWebApp = new msal.ConfidentialClientApplication(confidentialClientConfigWebApp);
 
-const myMSALObj = new msal.PublicClientApplication(confidentialClientConfigWebApp);
 
 module.exports = {
   msalConfigWebApp: confidentialClientConfigWebApp,
