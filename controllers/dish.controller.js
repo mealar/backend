@@ -30,7 +30,7 @@ const getDishes = expressAsyncHandler(async (req, res) => {
   const dishes = await Dish.find()
     .populate({
       path: "additions",
-      select: "_id name additionObjects default",
+      select: "_id name additionObjects default isRequired",
       populate: {
         path: "additionObjects",
         select: "_id name price calories",

@@ -14,6 +14,7 @@ const additonGroupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isRequired: { type: Boolean, default: false },
     lastModifiedBy: String,
   },
   {

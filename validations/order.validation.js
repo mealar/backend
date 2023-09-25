@@ -9,19 +9,34 @@ const objectId = (value, helpers) => {
 const createOrder = (data) => {
   const schema = Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
-    deliveryTable: Joi.number().required(),
+    deliveryTable: Joi.object({
+      tableId: Joi.string().custom(objectId).required(),
+      tableNumber: Joi.number().required(),
+      seatingCapacity: Joi.number().required(),
+      qrCode: Joi.string().required(),
+    }).required(),
     dishes: Joi.array().items({
-      dishId: Joi.string().custom(objectId),
+      dishId: Joi.string().custom(objectId).required(),
+      dishName: Joi.string().required(),
+      count: Joi.number().required(),
       additions: Joi.array().items({
-        additionGroupId: Joi.string().custom(objectId),
-        additionId: Joi.string().custom(objectId),
+        groupId: Joi.string().custom(objectId).required(),
+        groupName: Joi.string().required(),
+        name: Joi.string().required(),
+        _id: Joi.string().custom(objectId).required(),
+        price: Joi.number().required(),
       }),
     }),
     menus: Joi.array().items({
-      dishId: Joi.string().custom(objectId),
+      menuId: Joi.string().custom(objectId).required(),
+      menuName: Joi.string().required(),
+      count: Joi.number().required(),
       additions: Joi.array().items({
-        additionGroupId: Joi.string().custom(objectId),
-        additionId: Joi.string().custom(objectId),
+        groupId: Joi.string().custom(objectId).required(),
+        groupName: Joi.string().required(),
+        name: Joi.string().required(),
+        _id: Joi.string().custom(objectId).required(),
+        price: Joi.number().required(),
       }),
     }),
   });

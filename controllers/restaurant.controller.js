@@ -12,7 +12,7 @@ const getAllRestaurants = expressAsyncHandler(async (req, res) => {
 });
 
 const createRestaurant = expressAsyncHandler(async (req, res) => {
-  const { error } = restaurantValidation.createRestaurantValidate(req.body);
+  const { error } = restaurantValidation.createRestaurant(req.body);
   if (error) return res.status(400).send({ message: error.details[0].message });
   const restaurant = new Restaurant(req.body);
   try {
@@ -25,6 +25,8 @@ const createRestaurant = expressAsyncHandler(async (req, res) => {
 
 // Belirli bir restoranı görüntüleme
 const getRestaurant = expressAsyncHandler(async (req, res) => {
+  const { error } = restaurantValidation.updateRestaurant(req.body);
+  if (error) return res.status(400).send({ message: error.details[0].message });
   const restaurant = await Restaurant.findById(req.params.id);
   if (restaurant) {
     res.send(restaurant);
@@ -34,56 +36,18 @@ const getRestaurant = expressAsyncHandler(async (req, res) => {
 });
 
 const updateRestaurant = expressAsyncHandler(async (req, res) => {
-  try {
-    const {
-      name,
-      currency,
-      address,
-      isActive,
-      selectedMenuIds,
-      workingHours,
-      cuisineType,
-      paymentMethods,
-      socialMediaLinks,
-      ownerId,
-      createdBy,
-      lastModifiedBy,
-      tags,
-      images,
-      logo,
-    } = req.body;
+  const updateBody = { ...req.body };
+  const restaurant = await Restaurant.findByIdAndUpdate({
+    _id: req.params.id,
+  });
+  Object.assign(restaurant, updateBody);
 
-    const updatedData = {
-      name,
-      currency,
-      address,
-      isActive,
-      selectedMenuIds,
-      workingHours,
-      cuisineType,
-      paymentMethods,
-      socialMediaLinks,
-      ownerId,
-      createdBy,
-      lastModifiedBy,
-      tags,
-      images,
-      logo,
-    };
+  restaurant.save();
 
-    const updatedRestaurant = await Restaurant.findByIdAndUpdate(
-      req.params.id,
-      updatedData,
-      { new: true }
-    );
-
-    if (updatedRestaurant) {
-      res.send({ message: "Restaurant Updated", updatedRestaurant });
-    } else {
-      res.status(404).send({ message: "Restaurant Not Found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: "Server Error" });
+  if (restaurant) {
+    res.send({ message: "Restaurant Updated", restaurant });
+  } else {
+    res.status(404).send({ message: "Restaurant Not Found" });
   }
 });
 

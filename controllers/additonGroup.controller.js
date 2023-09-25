@@ -1,5 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
-const { AdditionGroup, Dish, Menu } = require("../models");
+const { AdditionGroup, Dish, Menu, Restaurant } = require("../models");
 const { additionGroupValidation } = require("../validations");
 
 const createAdditionGroup = expressAsyncHandler(async (req, res) => {
@@ -26,7 +26,22 @@ const createAdditionGroup = expressAsyncHandler(async (req, res) => {
   }
   res.status(201).json(group);
 });
+const getAdditionGroups = expressAsyncHandler(async (req, res) => {
+  // const { error } = dishValidation.getDishes(req.body);
+  // if (error) return res.status(400).send({ message: error.details[0].message });
+  const { restaurantId } = req.body;
+  const restaurant = await Restaurant.findOne({ _id: restaurantId });
+  if (!restaurant) {
+    res.status(404).send({ message: "Restaurant Not Found" });
+  }
+  const additionGroup = await AdditionGroup.find();
 
+  if (!additionGroup) {
+    res.status(404).send({ message: "additionGroup Not Found" });
+  }
+  res.status(201).json(additionGroup);
+});
 module.exports = {
   createAdditionGroup,
+  getAdditionGroups,
 };

@@ -11,6 +11,7 @@ const createAdditionGroup = (data) => {
     dishId: Joi.string().custom(objectId),
     createdBy: Joi.string().required(),
     name: Joi.string().required(),
+    isRequired: Joi.boolean(),
   }).xor("menuId", "dishId");
   return schema.validate(data);
 };
