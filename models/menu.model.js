@@ -14,16 +14,11 @@ const menuSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    entities: [
-      {
-        status: {
-          type: String,
-          enum: ["dish", "menu", "category"],
-          required: true,
-        },
-        items: [mongoose.ObjectId],
-      },
-    ],
+    entities: {
+      dish: [{ type: mongoose.ObjectId, ref: "dish" }],
+      menu: [{ type: mongoose.ObjectId, ref: "menu" }],
+      category: [{ type: mongoose.ObjectId, ref: "category" }],
+    },
     additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
     isActive: Boolean,
     createdBy: String,

@@ -6,8 +6,24 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createRestaurant = (data) => {
-  const schema = Joi.object({
+const getOwnerRestaurants = {
+  body: Joi.object().keys({
+    ownerId: Joi.string().required(),
+  }),
+};
+const getRestaurant = {
+  params: Joi.object().keys({
+    restaurantId: Joi.string().custom(objectId).required(),
+  }),
+};
+const deleteRestaurant = {
+  params: Joi.object().keys({
+    restaurantId: Joi.string().custom(objectId).required(),
+  }),
+};
+
+const createRestaurant = {
+  body: Joi.object().keys({
     name: Joi.string().required().max(30),
     currency: Joi.string().required().valid("TRY", "USD"),
     isActive: Joi.boolean().default(false),
@@ -93,11 +109,13 @@ const createRestaurant = (data) => {
     },
     images: { url: Joi.string().required(), altText: Joi.string().required() },
     logo: { url: Joi.string().required(), altText: Joi.string().required() },
-  });
-  return schema.validate(data);
+  }),
 };
-const updateRestaurant = (data) => {
-  const schema = Joi.object({
+const updateRestaurant = {
+  params: Joi.object().keys({
+    restaurantId: Joi.string().custom(objectId).required(),
+  }),
+  body: Joi.object().keys({
     name: Joi.string().max(30),
     currency: Joi.string().valid("TRY", "USD"),
     isActive: Joi.boolean().default(false),
@@ -183,11 +201,13 @@ const updateRestaurant = (data) => {
     },
     images: { url: Joi.string().required(), altText: Joi.string().required() },
     logo: { url: Joi.string().required(), altText: Joi.string().required() },
-  });
-  return schema.validate(data);
+  }),
 };
 
 module.exports = {
   createRestaurant,
   updateRestaurant,
+  getOwnerRestaurants,
+  deleteRestaurant,
+  getRestaurant,
 };

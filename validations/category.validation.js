@@ -12,12 +12,11 @@ const createCategoryValidate = (data) => {
     name: Joi.string().required().max(30),
     description: Joi.string().required().max(100),
     isActive: Joi.boolean().default(false),
-    entities: Joi.array()
-      .max(3)
-      .items({
-        status: Joi.string().valid("dish", "menu", "category"),
-        items: Joi.array().items(Joi.string().custom(objectId)),
-      }),
+    entities: Joi.object({
+      dish: Joi.array(),
+      menu: Joi.array(),
+      category: Joi.array(),
+    }),
     createdBy: Joi.string().required(),
     expiryDateTime: Joi.date().required(),
     lastModifiedBy: Joi.string().required(),

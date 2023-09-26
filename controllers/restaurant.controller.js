@@ -1,10 +1,10 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Restaurant } = require("../models");
-const { restaurantValidation } = require("../validations");
 
-const getAllRestaurants = expressAsyncHandler(async (req, res) => {
+const getOwnerRestaurants = expressAsyncHandler(async (req, res) => {
+  const { ownerId } = req.body;
   try {
-    const restaurants = await Restaurant.find();
+    const restaurants = await Restaurant.find({ ownerId });
     res.json(restaurants);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -12,8 +12,6 @@ const getAllRestaurants = expressAsyncHandler(async (req, res) => {
 });
 
 const createRestaurant = expressAsyncHandler(async (req, res) => {
-  const { error } = restaurantValidation.createRestaurant(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
   const restaurant = new Restaurant(req.body);
   try {
     const newRestaurant = await restaurant.save();
@@ -23,11 +21,9 @@ const createRestaurant = expressAsyncHandler(async (req, res) => {
   }
 });
 
-// Belirli bir restoranı görüntüleme
 const getRestaurant = expressAsyncHandler(async (req, res) => {
-  const { error } = restaurantValidation.updateRestaurant(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
-  const restaurant = await Restaurant.findById(req.params.id);
+  const { restaurantId } = req.params;
+  const restaurant = await Restaurant.findById(restaurantId);
   if (restaurant) {
     res.send(restaurant);
   } else {
@@ -37,8 +33,9 @@ const getRestaurant = expressAsyncHandler(async (req, res) => {
 
 const updateRestaurant = expressAsyncHandler(async (req, res) => {
   const updateBody = { ...req.body };
+  const { restaurantId } = req.params;
   const restaurant = await Restaurant.findByIdAndUpdate({
-    _id: req.params.id,
+    _id: restaurantId,
   });
   Object.assign(restaurant, updateBody);
 
@@ -65,7 +62,7 @@ const deleteRestaurant = expressAsyncHandler(async (req, res) => {
 module.exports = {
   createRestaurant,
   deleteRestaurant,
-  getAllRestaurants,
+  getOwnerRestaurants,
   getRestaurant,
   updateRestaurant,
 };
