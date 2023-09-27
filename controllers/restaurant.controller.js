@@ -1,68 +1,82 @@
 const expressAsyncHandler = require("express-async-handler");
-const { Restaurant } = require("../models");
+const { RestaurantService } = require("../services");
+const httpStatus = require("http-status");
 
 const getOwnerRestaurants = expressAsyncHandler(async (req, res) => {
   const { ownerId } = req.body;
-  try {
-    const restaurants = await Restaurant.find({ ownerId });
-    res.json(restaurants);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  const restaurants = await RestaurantService.getOwnerRestaurants(ownerId);
+  if (!restaurants) {
+    return res.status(httpStatus.NOT_FOUND).send.error({
+      message: "Restaurant not found",
+    });
   }
+  return res.status(httpStatus.OK).send(restaurants);
+});
+const getAllRestaurants = expressAsyncHandler(async (req, res) => {
+  const restaurants = await RestaurantService.getAllRestaurants();
+  if (!restaurants) {
+    return res.status(httpStatus.NOT_FOUND).send.error({
+      message: "Restaurant not found",
+    });
+  }
+  return res.status(httpStatus.OK).send(restaurants);
 });
 
 const createRestaurant = expressAsyncHandler(async (req, res) => {
-  const restaurant = new Restaurant(req.body);
-  try {
-    const newRestaurant = await restaurant.save();
-    res.status(201).json(newRestaurant);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  const restaurant = RestaurantService.createRestaurant(req.body);
+  if (!restaurant) {
+    return res.status(httpStatus.NOT_FOUND).send.error({
+      message: "Restaurant not created",
+    });
   }
+  return res.status(httpStatus.OK).send(restaurant);
 });
 
 const getRestaurant = expressAsyncHandler(async (req, res) => {
   const { restaurantId } = req.params;
-  const restaurant = await Restaurant.findById(restaurantId);
-  if (restaurant) {
-    res.send(restaurant);
-  } else {
-    res.status(404).send({ message: "Restaurant Not Found" });
+  const restaurant = await RestaurantService.getRestaurant(restaurantId);
+  if (!restaurant) {
+    return res.status(httpStatus.NOT_FOUND).send.error({
+      message: "Restaurant not found",
+    });
   }
+  return res.status(httpStatus.OK).send(restaurant);
 });
 
 const updateRestaurant = expressAsyncHandler(async (req, res) => {
   const updateBody = { ...req.body };
   const { restaurantId } = req.params;
-  const restaurant = await Restaurant.findByIdAndUpdate({
-    _id: restaurantId,
-  });
-  Object.assign(restaurant, updateBody);
-
-  restaurant.save();
-
-  if (restaurant) {
-    res.send({ message: "Restaurant Updated", restaurant });
-  } else {
-    res.status(404).send({ message: "Restaurant Not Found" });
+  const restaurant = await RestaurantService.updateRestaurant(
+    updateBody,
+    restaurantId
+  );
+  if (!restaurant) {
+    return res.status(httpStatus.NOT_FOUND).send.error({
+      message: "Restaurant not updated",
+    });
   }
+  return res.status(httpStatus.OK).send(restaurant);
 });
 
 const deleteRestaurant = expressAsyncHandler(async (req, res) => {
-  const restaurant = await Restaurant.findById(req.params.id);
+  const { restaurantId } = req.params;
+  const restaurant = await RestaurantService.deleteRestaurant(restaurantId);
 
-  if (restaurant) {
-    await Restaurant.findByIdAndDelete(req.params.id);
-    res.send({ message: "Restaurant Deleted" });
-  } else {
-    res.status(404).send({ message: "Restaurant Not Found" });
+  if (!restaurant) {
+    return res.status(httpStatus.NOT_FOUND).send.error({
+      message: "Restaurant not deleted",
+    });
   }
+  return res.status(httpStatus.OK).send({
+    message: "Restaurant is deleted",
+  });
 });
 
 module.exports = {
   createRestaurant,
   deleteRestaurant,
   getOwnerRestaurants,
+  getAllRestaurants,
   getRestaurant,
   updateRestaurant,
 };

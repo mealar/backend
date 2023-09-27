@@ -40,8 +40,9 @@ const validate = (schema) => async (req, res, next) => {
       if (message === "") message = "Validation failed";
     }
 
-    return res.status(httpStatus.BAD_REQUEST).send({
+    return res.status(422).send({
       data: errorObject,
+      status: 422,
       message: message.length > 0 ? message : "Uncaught ValidationError",
     });
   }

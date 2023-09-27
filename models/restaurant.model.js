@@ -42,6 +42,12 @@ const restaurantSchema = new mongoose.Schema(
       enum: ["cash", "creditCard", "noPayment"],
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["active", "draft", "deleted"],
+      default: "active",
+    },
+
     ownerId: { type: String, required: true }, //tokendan al
     socialMediaLinks: {
       instagram: { type: String },
