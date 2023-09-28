@@ -18,10 +18,13 @@ const restaurantSchema = new mongoose.Schema(
       coordinates: { type: [Number], required: true },
     },
     isActive: { type: Boolean, required: true },
-    selectedMenuIds: [{ type: String, required: true }],
+    selectedMenuIds: {
+      type: mongoose.ObjectId,
+      ref: "Menu",
+    },
     categories: {
       type: [mongoose.ObjectId],
-      ref: "categories",
+      ref: "Category",
     },
     workingHours: {
       monday: { start: String, end: String }, //end>start

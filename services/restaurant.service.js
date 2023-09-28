@@ -3,7 +3,7 @@ const { Restaurant } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 const getOwnerRestaurants = async (ownerId) => {
-  const restaurants = await Restaurant.find({ ownerId });
+  const restaurants = await Restaurant.find({ ownerId, status: "active" });
   if (!restaurants) {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurants not found");
   }

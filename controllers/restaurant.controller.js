@@ -23,7 +23,7 @@ const getAllRestaurants = expressAsyncHandler(async (req, res) => {
 });
 
 const createRestaurant = expressAsyncHandler(async (req, res) => {
-  const restaurant = RestaurantService.createRestaurant(req.body);
+  const restaurant = await RestaurantService.createRestaurant(req.body);
   if (!restaurant) {
     return res.status(httpStatus.NOT_FOUND).send.error({
       message: "Restaurant not created",

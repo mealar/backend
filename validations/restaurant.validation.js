@@ -34,7 +34,7 @@ const createRestaurant = {
     cuisineType: Joi.string().required().valid("Turkish", "India"),
     paymentMethods: Joi.string().valid("cash", "creditCard", "noPayment"),
     ownerId: Joi.string().max(36).required(),
-    selectedMenuIds: Joi.array().max(1).required(),
+    selectedMenuIds: Joi.string().custom(objectId),
     categories: Joi.array().items(Joi.string().custom(objectId)),
     workingHours: {
       monday: {
