@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
+const additionGroupSchema = require("./additionGroup.model");
+const allergenSchema = require("./allergen.model");
 
 const dishSchema = new mongoose.Schema(
   {
-    restaurantId: {
-      type: mongoose.ObjectId,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -14,14 +12,14 @@ const dishSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
+    additions: [additionGroupSchema],
     ingredients: [
       {
         name: String,
         optional: Boolean,
       },
     ],
-    allergens: [mongoose.ObjectId],
+    allergens: [allergenSchema],
     availability: Boolean,
     isHalal: Boolean,
     isVegan: Boolean,
@@ -44,6 +42,4 @@ const dishSchema = new mongoose.Schema(
   }
 );
 
-const Dish = mongoose.model("Dish", dishSchema);
-
-module.exports = Dish;
+module.exports = dishSchema;
