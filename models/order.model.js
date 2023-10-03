@@ -1,120 +1,54 @@
 const mongoose = require("mongoose");
+const dishSchema = require("./dish.model");
+const menuSchema = require("./menu.model");
+const tableSchema = require("./table.model");
+const additionSchema = require("./addition.model");
 
-const dishSchema = new mongoose.Schema({
-  dishId: {
-    type: mongoose.ObjectId,
-    required: true,
-  },
-  dishName: {
-    type: String,
-    required: true,
-  },
-  additions: [
-    {
-      groupId: {
-        type: mongoose.ObjectId,
-      },
-      groupName: {
-        type: String,
-      },
-      _Id: {
-        type: mongoose.ObjectId,
-      },
-      name: {
-        type: String,
-      },
-      price: {
-        type: Number,
-      },
-    },
-  ],
-  dishPrice: {
-    type: Number,
-  },
-  count: {
-    type: Number,
-    required: true,
-  },
+const orderedDishSchema = new mongoose.Schema({
+  dish: dishSchema,
+  additions: [additionSchema],
+  dishPrice: Number,
+  count: Number,
 });
-dishSchema.pre("save", function (next) {
-  this.dishPrice = this.additions.reduce((a, b) => a + b.price, 0);
+
+orderedDishSchema.pre("save", function (next) {
+  this.dishPrice = this.additions.reduce((a, b) => a + b.price, 0) + this.dish.price;
   next();
 });
 
-const menuSchema = new mongoose.Schema({
-  menuId: {
-    type: mongoose.ObjectId,
-    required: true,
-  },
-  menuName: {
-    type: String,
-    required: true,
-  },
-  additions: [
-    {
-      groupId: {
-        type: mongoose.ObjectId,
-      },
-      groupName: {
-        type: String,
-      },
-      _Id: {
-        type: mongoose.ObjectId,
-      },
-      name: {
-        type: String,
-      },
-      price: {
-        type: Number,
-      },
-    },
-  ],
-  menuPrice: {
-    type: Number,
-  },
-  count: {
-    type: Number,
-    required: true,
-  },
+const orderedMenuSchema = new mongoose.Schema({
+  menu: menuSchema,
+  additions: [additionSchema],
+  menuPrice: Number,
+  count: Number,
 });
-menuSchema.pre("save", function (next) {
-  this.menuPrice = this.additions.reduce((a, b) => a + b.price, 0);
+
+orderedMenuSchema.pre("save", function (next) {
+  this.menuPrice = this.additions.reduce((a, b) => a + b.price, 0) + this.menu.price;
   next();
 });
 
-const orderSchema = new mongoose.Schema(
-  {
-    restaurantId: {
-      type: mongoose.ObjectId,
-    },
-    deliveryTable: {
-      tableId: {
-        type: mongoose.ObjectId,
-      },
-      tableNumber: {
-        type: Number,
-      },
-      seatingCapacity: {
-        type: Number,
-      },
-      qrCode: {
-        type: String,
-      },
-    },
-
-    dishes: [dishSchema],
-    menus: [menuSchema],
-    totalPrice: Number,
+const orderSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.ObjectId,
+    required: true,
   },
-  {
-    timestamps: true,
-  }
-);
+  restaurantId: {
+    type: mongoose.ObjectId,
+    required: true,
+  },
+  table: tableSchema,
+  dishes: [orderedDishSchema],
+  menus: [orderedMenuSchema],
+  totalPrice: Number,
+}, {
+  timestamps: true,
+});
 
 orderSchema.pre("save", function (next) {
   this.totalPrice =
-    this.dishes.reduce((a, b) => a + b.dishPrice * b.count, 0) +
-    this.menus.reduce((a, b) => a + b.menuPrice * b.count, 0);
+    this.dishes.reduce((a, b) => a + (b.dishPrice * b.count), 0) +
+    this.menus.reduce((a, b) => a + (b.menuPrice * b.count), 0);
   next();
 });
 
