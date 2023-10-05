@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const menuSchema = new mongoose.Schema(
   {
-    restaurantId: {
+    categoryId: {
       type: mongoose.ObjectId,
       required: true,
     },
@@ -17,7 +17,6 @@ const menuSchema = new mongoose.Schema(
     entities: {
       dish: [{ type: mongoose.ObjectId, ref: "dish" }],
       menu: [{ type: mongoose.ObjectId, ref: "menu" }],
-      category: [{ type: mongoose.ObjectId, ref: "category" }],
     },
     additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
     isActive: Boolean,

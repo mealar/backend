@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const dishSchema = new mongoose.Schema(
   {
-    restaurantId: {
+    categoryId: {
       type: mongoose.ObjectId,
       required: true,
     },

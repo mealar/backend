@@ -11,12 +11,10 @@ const createTable = expressAsyncHandler(async (req, res) => {
     res.status(404).send({ message: "Restaurant Not Found" });
   }
   const table = new Table(req.body);
-  try {
-    const newTable = await table.save();
-    res.status(201).json(newTable);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  const newTable = await table.save();
+  restaurant.tables.push(newTable._id);
+  await restaurant.save();
+  res.status(201).json(newTable);
 });
 const getTables = expressAsyncHandler(async (req, res) => {
   const { error } = tableValidation.getTables(req.body);

@@ -6,24 +6,17 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createMenuValidate = (data) => {
+const createMenu = (data) => {
   const schema = Joi.object({
-    restaurantId: Joi.string().custom(objectId).required(),
+    categoryId: Joi.string().custom(objectId).required(),
     name: Joi.string().required().max(30),
     description: Joi.string().required().max(100),
     isActive: Joi.boolean().default(false),
     entities: Joi.object({
       dish: Joi.array(),
       menu: Joi.array(),
-      category: Joi.array(),
     }),
-    sizeOptions: Joi.array()
-      .max(3)
-      .items({
-        name: Joi.string().valid("small", "standart", "large"),
-        price: Joi.number(),
-        calories: Joi.string(),
-      }),
+    additions: Joi.array(),
     createdBy: Joi.string().required(),
     expiryDateTime: Joi.date().required(),
     lastModifiedBy: Joi.string().required(),
@@ -42,6 +35,6 @@ const getMenus = (data) => {
   return schema.validate(data);
 };
 module.exports = {
-  createMenuValidate,
+  createMenu,
   getMenus,
 };
