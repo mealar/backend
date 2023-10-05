@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
-const restaurantSchema = new mongoose.Schema(
-  {
+const categorySchema = require("./category.model");
+const menuSchema = require("./menu.model");
+const tableSchema = require("./table.model");
+
+const restaurantSchema = new mongoose.Schema({
     name: {
       type: String,
       required: true,
@@ -18,14 +21,9 @@ const restaurantSchema = new mongoose.Schema(
       coordinates: { type: [Number], required: true },
     },
     isActive: { type: Boolean, required: true },
-    selectedMenuIds: {
-      type: mongoose.ObjectId,
-      ref: "Menu",
-    },
-    categories: {
-      type: [mongoose.ObjectId],
-      ref: "Category",
-    },
+    tables: [tableSchema],
+    selectedMenuIds: menuSchema,
+    categories: [categorySchema],
     workingHours: {
       monday: { start: String, end: String }, //end>start
       tuesday: { start: String, end: String },
