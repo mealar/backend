@@ -1,10 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Addition, AdditionGroup } = require("../models");
-const { additionValidation } = require("../validations");
 
 const createAddition = expressAsyncHandler(async (req, res) => {
-  const { error } = additionValidation.createAddition(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
   const { groupId } = req.body;
   const group = await AdditionGroup.findOne({ _id: groupId });
   if (!group) {

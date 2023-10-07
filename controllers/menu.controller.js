@@ -1,22 +1,17 @@
 const expressAsyncHandler = require("express-async-handler");
-const { Restaurant, Menu, AdditionGroup } = require("../models");
-const { menuValidation } = require("../validations");
+const { Category, Menu } = require("../models");
 
 const createMenu = expressAsyncHandler(async (req, res) => {
-  const { error } = menuValidation.createMenuValidate(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
-  const { restaurantId } = req.body;
-  const restaurant = await Restaurant.findOne({ _id: restaurantId });
-  if (!restaurant) {
-    res.status(404).send({ message: "Restaurant Not Found" });
+  const { categoryId } = req.body;
+  const category = await Category.findById(categoryId);
+  if (!category) {
+    res.status(404).send({ message: "Category Not Found" });
   }
   const menu = new Menu(req.body);
-  try {
-    const newMenu = await menu.save();
-    res.status(201).json(newMenu);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  const newMenu = await menu.save();
+  category.entities.menu.push(newMenu._id);
+  await category.save();
+  res.status(201).json(newMenu);
 });
 
 const getMenus = expressAsyncHandler(async (req, res) => {

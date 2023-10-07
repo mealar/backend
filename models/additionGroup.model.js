@@ -1,14 +1,20 @@
 const mongoose = require("mongoose");
-const additionSchema = require("./addition.model");
-
 const additionGroupSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    additionObjects: [additionSchema],
-    default: additionSchema,
+    additionObjects: [
+      {
+        type: mongoose.ObjectId,
+        ref: "addition",
+      },
+    ],
+    default: {
+      type: mongoose.ObjectId,
+      ref: "addition",
+    },
     createdBy: {
       type: String,
       required: true,
@@ -21,4 +27,5 @@ const additionGroupSchema = new mongoose.Schema(
   }
 );
 
-module.exports = additionGroupSchema;
+const AdditionGroup = mongoose.model("additionGroup", additionGroupSchema);
+module.exports = AdditionGroup;

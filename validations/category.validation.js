@@ -6,7 +6,7 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createCategoryValidate = (data) => {
+const createCategory = (data) => {
   const schema = Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
     name: Joi.string().required().max(30),
@@ -29,5 +29,5 @@ const createCategoryValidate = (data) => {
 };
 
 module.exports = {
-  createCategoryValidate,
+  createCategory,
 };
