@@ -6,6 +6,8 @@ const mongoSanitize = require("express-mongo-sanitize");
 const session = require("express-session");
 const cors = require("cors");
 const routes = require("./routes");
+const swaggerUi = require("swagger-ui-express");
+const swaggerOptions = require("./utils/swagger/swagger");
 
 //----Local Imports----//
 const MongoDbConnection = require("./configurations/mongoDbConfig");
@@ -32,11 +34,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(mongoSanitize(mongoSanitizeConfig));
 
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerOptions, { explorer: true })
+);
+
 app.use("/api/v1", routes);
 
 MongoDbConnection();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT_API || 5000;
 app.listen(port, () => {
   console.log(`serve at http://localhost:${port}`);
 });
