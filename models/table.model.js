@@ -1,23 +1,27 @@
 const mongoose = require("mongoose");
 
-const tableSchema = new mongoose.Schema({
-  tableNumber: {
-    type: Number,
-    required: true,
+const tableSchema = new mongoose.Schema(
+  {
+    tableNumber: {
+      type: Number,
+      required: true,
+    },
+    seatingCapacity: {
+      type: Number,
+      required: true,
+    },
+    qrCode: {
+      type: String,
+      required: true,
+    },
+    isActive: Boolean,
+    createdBy: String,
+    lastModifiedBy: String,
   },
-  seatingCapacity: {
-    type: Number,
-    required: true,
-  },
-  qrCode: {
-    type: String,
-    required: true,
-  },
-  isActive: Boolean,
-  createdBy: String,
-  lastModifiedBy: String,
-}, {
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = tableSchema;
+const Table = mongoose.model("Table", tableSchema);
+module.exports = Table;
