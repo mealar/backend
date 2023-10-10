@@ -18,7 +18,7 @@ const createOrder = expressAsyncHandler(async (req, res) => {
 
   const newOrder = await order.save();
   restaurant.orders.push(newOrder);
-  restaurant.save();
+  await restaurant.save();
   res.status(201).json(newOrder);
 });
 const getOrders = expressAsyncHandler(async (req, res) => {

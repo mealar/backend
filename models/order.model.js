@@ -31,8 +31,7 @@ const DishSchema = new mongoose.Schema({
 });
 
 DishSchema.pre("save", function (next) {
-  this.dishPrice =
-    this.additions.reduce((a, b) => a + b.price, 0) + this.dish.price;
+  this.dishPrice = this.additions.reduce((a, b) => a + b.price, 0);
   next();
 });
 
@@ -67,17 +66,12 @@ const MenuSchema = new mongoose.Schema({
 });
 
 MenuSchema.pre("save", function (next) {
-  this.menuPrice =
-    this.additions.reduce((a, b) => a + b.price, 0) + this.menu.price;
+  this.menuPrice = this.additions.reduce((a, b) => a + b.price, 0);
   next();
 });
 
 const orderSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.ObjectId,
-      required: true,
-    },
     restaurantId: {
       type: mongoose.ObjectId,
       required: true,
