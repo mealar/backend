@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const menuSchema = new mongoose.Schema(
   {
+    restaurantId: {
+      type: mongoose.ObjectId,
+      required: true,
+    },
     categoryId: {
       type: mongoose.ObjectId,
       required: true,
@@ -38,4 +42,3 @@ const menuSchema = new mongoose.Schema(
 const Menu = mongoose.model("Menu", menuSchema);
 
 module.exports = Menu;
-

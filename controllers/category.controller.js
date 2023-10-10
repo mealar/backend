@@ -1,23 +1,20 @@
 const expressAsyncHandler = require("express-async-handler");
-const { Category, Restaurant } = require("../models");
+const httpStatus = require("http-status");
+const { CategoryService } = require("../services");
 
 const createCategory = expressAsyncHandler(async (req, res) => {
-  const { restaurantId } = req.body;
-  const restaurant = await Restaurant.findById(restaurantId);
-  if (!restaurant) {
-    res.status(404).send({ message: "Restaurant Not Found" });
-  }
-  const category = new Category(req.body);
-  try {
-    const newCategory = await category.save();
-    restaurant.categories.push(newCategory._id);
-    await restaurant.save();
-    res.status(201).json(newCategory);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  const { body } = req;
+  const category = await CategoryService.createCategory(body);
+  return res.status(httpStatus.OK).send(category);
+});
+
+const getCategory = expressAsyncHandler(async (req, res) => {
+  const { categoryId } = req.body;
+  const category = await CategoryService.getCategory(categoryId);
+  return res.status(httpStatus.OK).send(category);
 });
 
 module.exports = {
   createCategory,
+  getCategory,
 };

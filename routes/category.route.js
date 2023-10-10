@@ -9,5 +9,6 @@ router.post(
   validate(categoryValidation.createCategory),
   categoryController.createCategory
 );
+router.get("/", categoryController.getCategory);
 
 module.exports = router;

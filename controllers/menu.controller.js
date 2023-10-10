@@ -1,8 +1,9 @@
 const expressAsyncHandler = require("express-async-handler");
-const { Category, Menu } = require("../models");
+const { Category, Restaurant, Menu } = require("../models");
+const { updateCategoryInRestaurant } = require("../services/category.service");
 
 const createMenu = expressAsyncHandler(async (req, res) => {
-  const { categoryId } = req.body;
+  const { categoryId, restaurantId } = req.body;
   const category = await Category.findById(categoryId);
   if (!category) {
     res.status(404).send({ message: "Category Not Found" });
@@ -11,6 +12,7 @@ const createMenu = expressAsyncHandler(async (req, res) => {
   const newMenu = await menu.save();
   category.entities.menu.push(newMenu._id);
   await category.save();
+  await updateCategoryInRestaurant(restaurantId, categoryId);
   res.status(201).json(newMenu);
 });
 

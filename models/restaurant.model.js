@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const restaurantSchema = new mongoose.Schema(
   {
     name: {
@@ -22,12 +23,8 @@ const restaurantSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: "Menu",
     },
-    categories: [
-      {
-        type: mongoose.ObjectId,
-        ref: "Category",
-      },
-    ],
+    // categories: [Object],
+    categories: [{ type: mongoose.ObjectId, ref: "Category" }],
     workingHours: {
       monday: { start: String, end: String }, //end>start
       tuesday: { start: String, end: String },
@@ -80,18 +77,8 @@ const restaurantSchema = new mongoose.Schema(
         required: true,
       },
     },
-    tables: [
-      {
-        type: mongoose.ObjectId,
-        ref: "Table",
-      },
-    ],
-    orders: [
-      {
-        type: mongoose.ObjectId,
-        ref: "Order",
-      },
-    ],
+    tables: [Object],
+    orders: [Object],
   },
 
   {

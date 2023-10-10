@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const dishSchema = new mongoose.Schema(
   {
+    restaurantId: {
+      type: mongoose.ObjectId,
+      required: true,
+    },
     categoryId: {
       type: mongoose.ObjectId,
       required: true,
@@ -47,4 +51,3 @@ const dishSchema = new mongoose.Schema(
 const Dish = mongoose.model("Dish", dishSchema);
 
 module.exports = Dish;
-

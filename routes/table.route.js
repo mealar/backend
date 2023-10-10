@@ -9,6 +9,6 @@ router.post(
   validate(tableValidation.createTable),
   tableController.createTable
 );
-router.get("/", tableController.getTables);
+router.get("/", validate(tableValidation.getTables), tableController.getTables);
 
 module.exports = router;

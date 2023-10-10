@@ -8,6 +8,7 @@ const objectId = (value, helpers) => {
 
 const createDish = (data) => {
   const schema = Joi.object({
+    restaurantId: Joi.string().custom(objectId).required(),
     categoryId: Joi.string().custom(objectId).required(),
     name: Joi.string().required().max(30),
     description: Joi.string().required().max(100),
