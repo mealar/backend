@@ -6,8 +6,8 @@ const mongoSanitize = require("express-mongo-sanitize");
 const session = require("express-session");
 const cors = require("cors");
 const routes = require("./routes");
-const swaggerUi = require("swagger-ui-express");
-const swaggerOptions = require("./utils/swagger/swagger");
+const swaggerUI = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 //----Local Imports----//
 const MongoDbConnection = require("./configurations/mongoDbConfig");
@@ -34,11 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(mongoSanitize(mongoSanitizeConfig));
 
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerOptions, { explorer: true })
-);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use("/api/v1", routes);
 

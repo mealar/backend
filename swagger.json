@@ -1,0 +1,299 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "3.0.0",
+    "title": "Mealer Application API",
+    "description": "Mealer Application API documentation",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Restaurant",
+      "description": "API for restaurant in the system"
+    }
+  ],
+
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/restaurant": {
+      "post": {
+        "tags": ["Restaurant"],
+        "summary": "Create Restaurant",
+        "parameters": [
+          {
+            "name": "Restaurant",
+            "in": "body",
+            "description": "Restaurant that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Restaurant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restaurant is created",
+            "schema": {
+              "$ref": "#/definitions/Restaurant"
+            }
+          },
+          "401": {
+            "description": "Restaurant is not created"
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Restaurant": {
+      "type": "object",
+      "required": [
+        "name",
+        "currency",
+        "address",
+        "isActive",
+        "cuisineType",
+        "paymentMethods",
+        "ownerId",
+        "createdBy",
+        "lastModifiedBy",
+        "tags",
+        "images",
+        "logo"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["TRY", "USD"],
+          "required": true
+        },
+        "address": {
+          "type": "object",
+          "required": ["readableAddress", "coordinates"],
+          "properties": {
+            "readableAddress": {
+              "type": "string",
+              "required": true
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "required": true
+            }
+          }
+        },
+        "isActive": {
+          "type": "boolean",
+          "required": true
+        },
+        "selectedMenuIds": {
+          "type": "string"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "workingHours": {
+          "type": "object",
+          "properties": {
+            "monday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            },
+            "tuesday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            },
+            "wednesday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            },
+            "thursday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            },
+            "friday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            },
+            "saturday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            },
+            "sunday": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "cuisineType": {
+          "type": "string",
+          "enum": ["Turkish", "Indian"],
+          "required": true
+        },
+        "paymentMethods": {
+          "type": "string",
+          "enum": ["cash", "creditCard", "noPayment"],
+          "required": true
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "draft", "deleted"],
+          "default": "active"
+        },
+        "ownerId": {
+          "type": "string",
+          "required": true
+        },
+        "socialMediaLinks": {
+          "type": "object",
+          "properties": {
+            "instagram": {
+              "type": "string"
+            },
+            "facebook": {
+              "type": "string"
+            },
+            "twitter": {
+              "type": "string"
+            }
+          }
+        },
+        "createdBy": {
+          "type": "string",
+          "required": true
+        },
+        "lastModifiedBy": {
+          "type": "string",
+          "required": true
+        },
+        "tags": {
+          "type": "object",
+          "properties": {
+            "familyFriendly": {
+              "type": "boolean",
+              "required": true
+            },
+            "veganOptions": {
+              "type": "boolean",
+              "required": true
+            },
+            "halalOptions": {
+              "type": "boolean",
+              "required": true
+            },
+            "servesAlcohol": {
+              "type": "boolean",
+              "required": true
+            }
+          }
+        },
+        "images": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "required": true
+            },
+            "altText": {
+              "type": "string"
+            }
+          }
+        },
+        "logo": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "required": true
+            },
+            "altText": {
+              "type": "string",
+              "required": true
+            }
+          }
+        },
+        "tables": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
