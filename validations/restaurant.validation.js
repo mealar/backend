@@ -204,10 +204,18 @@ const updateRestaurant = {
   }),
 };
 
+const selectMenu = {
+  body: Joi.object().keys({
+    restaurantId: Joi.string().custom(objectId).required(),
+    menuId: Joi.string().custom(objectId).required(),
+  }),
+};
+
 module.exports = {
   createRestaurant,
   updateRestaurant,
   getOwnerRestaurants,
   deleteRestaurant,
   getRestaurant,
+  selectMenu,
 };

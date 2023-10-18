@@ -71,6 +71,12 @@ const deleteRestaurant = expressAsyncHandler(async (req, res) => {
     message: "Restaurant is deleted",
   });
 });
+const selectMenu = expressAsyncHandler(async (req, res) => {
+  const { restaurantId, menuId } = req.body;
+  const selectedMenu = await RestaurantService.selectMenu(restaurantId, menuId);
+  console.log(selectedMenu);
+  return res.status(httpStatus.OK).send(selectedMenu);
+});
 
 module.exports = {
   createRestaurant,
@@ -79,4 +85,5 @@ module.exports = {
   getAllRestaurants,
   getRestaurant,
   updateRestaurant,
+  selectMenu,
 };

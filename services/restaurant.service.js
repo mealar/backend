@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const { Restaurant } = require("../models");
+const { Restaurant, Menu } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 const getOwnerRestaurants = async (ownerId) => {
@@ -88,6 +88,20 @@ const deleteRestaurant = async (restaurantId) => {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }
 };
+const selectMenu = async (restaurantId, menuId) => {
+  const restaurant = await Restaurant.findById(restaurantId);
+  const menu = await Menu.findById(menuId);
+  if (!menu) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Menu not found");
+  }
+  if (restaurant) {
+    restaurant.selectedMenu = menu;
+    restaurant.save();
+    return menu;
+  } else {
+    throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
+  }
+};
 
 module.exports = {
   createRestaurant,
@@ -96,4 +110,5 @@ module.exports = {
   getAllRestaurants,
   getRestaurant,
   updateRestaurant,
+  selectMenu,
 };

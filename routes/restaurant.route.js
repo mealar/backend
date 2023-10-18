@@ -29,5 +29,10 @@ router.delete(
   validate(restaurantValidation.deleteRestaurant),
   restaurantController.deleteRestaurant
 );
+router.post(
+  "/select-menu",
+  validate(restaurantValidation.selectMenu),
+  restaurantController.selectMenu
+);
 
 module.exports = router;

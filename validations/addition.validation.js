@@ -9,6 +9,8 @@ const objectId = (value, helpers) => {
 const createAddition = (data) => {
   const schema = Joi.object({
     groupId: Joi.string().custom(objectId).required(),
+    restaurantId: Joi.string().custom(objectId).required(),
+    categoryId: Joi.string().custom(objectId).required(),
     default: Joi.boolean(),
     calories: Joi.string().required(),
     name: Joi.string().required(),
