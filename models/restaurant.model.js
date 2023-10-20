@@ -134,11 +134,6 @@ const categorySchema = new mongoose.Schema({
         type: menuSchema,
       },
     ],
-    category: [
-      {
-        type: categorySchema,
-      },
-    ],
   },
   isActive: Boolean,
   createdBy: String,
@@ -150,6 +145,12 @@ const categorySchema = new mongoose.Schema({
     },
   ],
   lastModifiedBy: String,
+});
+
+categorySchema.add({
+  entities: {
+    category: [categorySchema],
+  },
 });
 
 const restaurantSchema = new mongoose.Schema(
