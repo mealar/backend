@@ -134,6 +134,11 @@ const categorySchema = new mongoose.Schema({
         type: menuSchema,
       },
     ],
+    category: [
+      {
+        type: categorySchema,
+      },
+    ],
   },
   isActive: Boolean,
   createdBy: String,

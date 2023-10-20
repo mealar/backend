@@ -23,6 +23,12 @@ const categorySchema = new mongoose.Schema(
           ref: "Menu",
         },
       ],
+      category: [
+        {
+          type: mongoose.ObjectId,
+          ref: "Category",
+        },
+      ],
     },
     isActive: Boolean,
     createdBy: String,

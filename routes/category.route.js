@@ -10,5 +10,6 @@ router.post(
   categoryController.createCategory
 );
 router.get("/", categoryController.getCategory);
+router.post("/cat-to-cat", categoryController.addCategorytoCategory);
 
 module.exports = router;

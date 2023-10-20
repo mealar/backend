@@ -28,6 +28,10 @@ const getCategory = async (categoryId) => {
           model: "addition",
         },
       },
+    })
+    .populate({
+      path: "entities.category",
+      model: "Category",
     });
   return category;
 };
@@ -62,8 +66,18 @@ const updateCategoryInRestaurant = async (restaurantId, categoryId) => {
     return "Category Not Updated in restaurant.";
   }
 };
+const addCategorytoCategory = async (cat1Id, cat2Id) => {
+  const category1 = await Category.findById(cat1Id);
+  if (!category1) {
+    return "Category Not Found.";
+  }
+  category1.entities.category.push(cat2Id);
+  updateCategoryInRestaurant(category1.restaurantId, cat1Id);
+  return category1;
+};
 module.exports = {
   getCategory,
   createCategory,
   updateCategoryInRestaurant,
+  addCategorytoCategory,
 };

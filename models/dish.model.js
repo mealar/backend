@@ -18,6 +18,9 @@ const dishSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    entities: {
+      dish: [{ type: mongoose.ObjectId, ref: "dish" }],
+    },
     additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
     ingredients: [
       {

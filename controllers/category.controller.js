@@ -13,8 +13,14 @@ const getCategory = expressAsyncHandler(async (req, res) => {
   const category = await CategoryService.getCategory(categoryId);
   return res.status(httpStatus.OK).send(category);
 });
+const addCategorytoCategory = expressAsyncHandler(async (req, res) => {
+  const { cat1Id, cat2Id } = req.body;
+  const category = await CategoryService.addCategorytoCategory(cat1Id, cat2Id);
+  return res.status(httpStatus.OK).send(category);
+});
 
 module.exports = {
   createCategory,
   getCategory,
+  addCategorytoCategory,
 };
