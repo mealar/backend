@@ -1,6 +1,8 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Category, Restaurant, Menu } = require("../models");
 const { updateCategoryInRestaurant } = require("../services/category.service");
+const { menuService } = require("../services");
+const httpStatus = require("http-status");
 
 const createMenu = expressAsyncHandler(async (req, res) => {
   const { categoryId, restaurantId } = req.body;
@@ -47,7 +49,17 @@ const getMenus = expressAsyncHandler(async (req, res) => {
   res.status(201).json(menus);
 });
 
+const addMenutoMenu = expressAsyncHandler(async (req, res) => {
+  const { menu1Id, menu2Id } = req.body;
+  const menu = await menuService.addMenutoMenu(menu1Id, menu2Id);
+  if (!menu) {
+    res.status(404).send({ message: "Menu Not Found" });
+  }
+  return res.status(httpStatus.OK).send(menu);
+});
+
 module.exports = {
   createMenu,
   getMenus,
+  addMenutoMenu,
 };

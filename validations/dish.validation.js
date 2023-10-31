@@ -41,8 +41,22 @@ const getDishes = (data) => {
   });
   return schema.validate(data);
 };
+const addDishtoMenu = {
+  body: Joi.object().keys({
+    menuId: Joi.string().custom(objectId).required(),
+    dishId: Joi.string().custom(objectId).required(),
+  }),
+};
+const addDishtoDish = {
+  body: Joi.object().keys({
+    dish1Id: Joi.string().custom(objectId).required(),
+    dish2Id: Joi.string().custom(objectId).required(),
+  }),
+};
 
 module.exports = {
   createDish,
   getDishes,
+  addDishtoDish,
+  addDishtoMenu,
 };

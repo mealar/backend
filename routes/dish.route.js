@@ -10,5 +10,15 @@ router.post(
   dishController.createDish
 );
 router.get("/", dishController.getDishes);
+router.post(
+  "/to-dish",
+  validate(dishValidation.addDishtoDish),
+  dishController.addDishtoDish
+);
+router.post(
+  "/to-menu",
+  validate(dishValidation.addDishtoMenu),
+  dishController.addDishtoMenu
+);
 
 module.exports = router;

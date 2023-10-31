@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema(
   {
+    restaurantId: {
+      type: mongoose.ObjectId,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

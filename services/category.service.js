@@ -51,7 +51,7 @@ const createCategory = async (body) => {
 const updateCategoryInRestaurant = async (restaurantId, categoryId) => {
   const restaurant = await Restaurant.findById(restaurantId);
   if (!restaurant) {
-    return "Restaurant Not Found.";
+    throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }
   const catId = new mongoose.Types.ObjectId(categoryId);
   const categoryIndex = restaurant.categories.findIndex(
@@ -69,12 +69,14 @@ const updateCategoryInRestaurant = async (restaurantId, categoryId) => {
 const addCategorytoCategory = async (cat1Id, cat2Id) => {
   const category1 = await Category.findById(cat1Id);
   if (!category1) {
-    return "Category Not Found.";
+    throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
   }
   category1.entities.category.push(cat2Id);
+  category1.save();
   updateCategoryInRestaurant(category1.restaurantId, cat1Id);
   return category1;
 };
+
 module.exports = {
   getCategory,
   createCategory,

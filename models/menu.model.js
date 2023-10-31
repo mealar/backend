@@ -38,7 +38,11 @@ const menuSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
+menuSchema.add({
+  entities: {
+    menu: [{ type: mongoose.ObjectId }],
+  },
+});
 const Menu = mongoose.model("Menu", menuSchema);
 
 module.exports = Menu;

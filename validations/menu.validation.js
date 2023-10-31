@@ -34,7 +34,15 @@ const getMenus = (data) => {
   });
   return schema.validate(data);
 };
+const addMenutoMenu = {
+  body: Joi.object().keys({
+    menu1Id: Joi.string().custom(objectId).required(),
+    menu2Id: Joi.string().custom(objectId).required(),
+  }),
+};
+
 module.exports = {
   createMenu,
   getMenus,
+  addMenutoMenu,
 };

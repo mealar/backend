@@ -10,5 +10,10 @@ router.post(
   menuController.createMenu
 );
 router.get("/", menuController.getMenus);
+router.post(
+  "/add-menu",
+  validate(menuValidation.addMenutoMenu),
+  menuController.addMenutoMenu
+);
 
 module.exports = router;
