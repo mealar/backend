@@ -63,6 +63,9 @@ const dishSchema = new mongoose.Schema({
       optional: Boolean,
     },
   ],
+  entities: {
+    dish: [{ type: mongoose.ObjectId }],
+  },
   allergens: [mongoose.ObjectId],
   availability: Boolean,
   isHalal: Boolean,
@@ -99,7 +102,8 @@ const menuSchema = new mongoose.Schema({
     required: true,
   },
   entities: {
-    dish: [{ type: dishSchema }],
+    dish: [{ type: mongoose.ObjectId }],
+    menu: [{ type: mongoose.ObjectId }],
   },
   additions: [{ type: additionGroupSchema }],
   isActive: Boolean,
@@ -113,11 +117,7 @@ const menuSchema = new mongoose.Schema({
   ],
   lastModifiedBy: String,
 });
-menuSchema.add({
-  entities: {
-    menu: [{ type: mongoose.ObjectId }],
-  },
-});
+
 const categorySchema = new mongoose.Schema({
   restaurantId: {
     type: mongoose.ObjectId,
@@ -141,6 +141,7 @@ const categorySchema = new mongoose.Schema({
         type: menuSchema,
       },
     ],
+    category: [{ type: mongoose.ObjectId }],
   },
   isActive: Boolean,
   createdBy: String,
@@ -152,12 +153,6 @@ const categorySchema = new mongoose.Schema({
     },
   ],
   lastModifiedBy: String,
-});
-
-categorySchema.add({
-  entities: {
-    category: [{ type: mongoose.ObjectId }],
-  },
 });
 
 const restaurantSchema = new mongoose.Schema(

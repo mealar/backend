@@ -11,12 +11,12 @@ router.post(
 );
 router.get("/", dishController.getDishes);
 router.post(
-  "/to-dish",
+  "/add-dish",
   validate(dishValidation.addDishtoDish),
   dishController.addDishtoDish
 );
 router.post(
-  "/to-menu",
+  "/add-menu",
   validate(dishValidation.addDishtoMenu),
   dishController.addDishtoMenu
 );

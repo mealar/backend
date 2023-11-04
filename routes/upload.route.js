@@ -4,7 +4,6 @@ const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
 
 const upload = multer();
-console.log(upload.single("file"));
 
 const uploadRouter = express.Router();
 
