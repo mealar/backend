@@ -222,12 +222,14 @@ const restaurantSchema = new mongoose.Schema(
       halalOptions: { type: Boolean, required: true },
       servesAlcohol: { type: Boolean, required: true },
     },
-    images: {
-      url: { type: String, required: true },
-      altText: {
-        type: String,
+    images: [
+      {
+        url: { type: String, required: true },
+        altText: {
+          type: String,
+        },
       },
-    },
+    ],
     logo: {
       url: { type: String, required: true },
       altText: {

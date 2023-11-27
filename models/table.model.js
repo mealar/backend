@@ -2,8 +2,16 @@ const mongoose = require("mongoose");
 
 const tableSchema = new mongoose.Schema(
   {
-    tableNumber: {
-      type: Number,
+    table_name: {
+      type: String,
+      required: true,
+    },
+    table_location: {
+      type: String,
+      required: true,
+    },
+    table_note: {
+      type: String,
       required: true,
     },
     seatingCapacity: {

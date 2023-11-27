@@ -6,7 +6,7 @@ const getOwnerRestaurants = async (ownerId) => {
   const restaurants = await Restaurant.find({
     ownerId,
     status: "active",
-  });
+  }).select("_id name logo images");
 
   if (!restaurants) {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurants not found");
@@ -28,35 +28,7 @@ const createRestaurant = async (body) => {
 };
 
 const getRestaurant = async (restaurantId) => {
-  const restaurant = await Restaurant.findById(restaurantId).populate({
-    path: "categories",
-    populate: [
-      {
-        path: "entities.dish",
-        model: "Dish",
-        populate: {
-          path: "additions",
-          model: "additionGroup",
-          populate: {
-            path: "additionObjects",
-            model: "addition",
-          },
-        },
-      },
-      {
-        path: "entities.menu",
-        model: "Menu",
-        populate: {
-          path: "additions",
-          model: "additionGroup",
-          populate: {
-            path: "additionObjects",
-            model: "addition",
-          },
-        },
-      },
-    ],
-  });
+  const restaurant = await Restaurant.findById(restaurantId);
   if (!restaurant) {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }

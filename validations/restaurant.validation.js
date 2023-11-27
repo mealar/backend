@@ -107,7 +107,10 @@ const createRestaurant = {
       halalOptions: Joi.boolean().required(),
       servesAlcohol: Joi.boolean().required(),
     },
-    images: { url: Joi.string().required(), altText: Joi.string().required() },
+    images: Joi.array().items({
+      url: Joi.string().required(),
+      altText: Joi.string().required(),
+    }),
     logo: { url: Joi.string().required(), altText: Joi.string().required() },
   }),
 };
@@ -199,7 +202,10 @@ const updateRestaurant = {
       halalOptions: Joi.boolean().required(),
       servesAlcohol: Joi.boolean().required(),
     },
-    images: { url: Joi.string().required(), altText: Joi.string().required() },
+    images: Joi.array().items({
+      url: Joi.string().required(),
+      altText: Joi.string().required(),
+    }),
     logo: { url: Joi.string().required(), altText: Joi.string().required() },
   }),
 };
