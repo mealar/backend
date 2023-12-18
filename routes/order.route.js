@@ -9,6 +9,10 @@ router.post(
   validate(orderValidation.createOrder),
   orderController.createOrder
 );
-router.get("/", orderController.getOrders);
+router.get(
+  "/:restaurantId",
+  validate(orderValidation.getOrders),
+  orderController.getOrders
+);
 
 module.exports = router;

@@ -6,8 +6,8 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createOrder = (data) => {
-  const schema = Joi.object({
+const createOrder = {
+  body: Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
     deliveryTable: Joi.object({
       tableId: Joi.string().custom(objectId).required(),
@@ -39,14 +39,12 @@ const createOrder = (data) => {
         price: Joi.number().required(),
       }),
     }),
-  });
-  return schema.validate(data);
+  }),
 };
-const getOrders = (data) => {
-  const schema = Joi.object({
+const getOrders = {
+  params: Joi.object().keys({
     restaurantId: Joi.string().custom(objectId).required(),
-  });
-  return schema.validate(data);
+  }),
 };
 
 module.exports = {

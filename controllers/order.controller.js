@@ -22,7 +22,7 @@ const createOrder = expressAsyncHandler(async (req, res) => {
   res.status(201).json(newOrder);
 });
 const getOrders = expressAsyncHandler(async (req, res) => {
-  const { restaurantId } = req.body;
+  const { restaurantId } = req.params;
   const restaurant = await Restaurant.findOne({ _id: restaurantId });
   if (!restaurant) {
     res.status(404).send({ message: "Restaurant Not Found" });
