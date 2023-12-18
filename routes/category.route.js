@@ -9,7 +9,7 @@ router.post(
   validate(categoryValidation.createCategory),
   categoryController.createCategory
 );
-router.get("/", categoryController.getCategory);
+router.get("/:categoryId", categoryController.getCategory);
 router.post("/cat-to-cat", categoryController.addCategorytoCategory);
 
 module.exports = router;

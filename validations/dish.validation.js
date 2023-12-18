@@ -6,8 +6,8 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createDish = (data) => {
-  const schema = Joi.object({
+const createDish = {
+  body: Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
     categoryId: Joi.string().custom(objectId).required(),
     name: Joi.string().required().max(30),
@@ -31,15 +31,13 @@ const createDish = (data) => {
       url: Joi.string().required(),
       altText: Joi.string().required(),
     }),
-  });
-  return schema.validate(data);
+  }),
 };
 
-const getDishes = (data) => {
-  const schema = Joi.object({
+const getDishes = {
+  params: Joi.object({
     restaurantId: Joi.string().custom(objectId),
-  });
-  return schema.validate(data);
+  }),
 };
 const addDishtoMenu = {
   body: Joi.object().keys({

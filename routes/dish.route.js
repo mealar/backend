@@ -9,7 +9,7 @@ router.post(
   validate(dishValidation.createDish),
   dishController.createDish
 );
-router.get("/", dishController.getDishes);
+router.get("/:restaurantId", dishController.getDishes);
 router.post(
   "/add-dish",
   validate(dishValidation.addDishtoDish),

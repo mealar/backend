@@ -9,7 +9,7 @@ const createCategory = expressAsyncHandler(async (req, res) => {
 });
 
 const getCategory = expressAsyncHandler(async (req, res) => {
-  const { categoryId } = req.body;
+  const { categoryId } = req.params;
   const category = await CategoryService.getCategory(categoryId);
   return res.status(httpStatus.OK).send(category);
 });

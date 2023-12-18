@@ -19,9 +19,7 @@ const createMenu = expressAsyncHandler(async (req, res) => {
 });
 
 const getMenus = expressAsyncHandler(async (req, res) => {
-  const { error } = menuValidation.getMenus(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
-  const { restaurantId } = req.body;
+  const { restaurantId } = req.params;
   const restaurant = await Restaurant.findOne({ _id: restaurantId });
   if (!restaurant) {
     res.status(404).send({ message: "Restaurant Not Found" });

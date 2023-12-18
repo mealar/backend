@@ -5,15 +5,14 @@ const objectId = (value, helpers) => {
   }
   return value;
 };
-const createAdditionGroup = (data) => {
-  const schema = Joi.object({
+const createAdditionGroup = {
+  body: Joi.object({
     menuId: Joi.string().custom(objectId),
     dishId: Joi.string().custom(objectId),
     createdBy: Joi.string().required(),
     name: Joi.string().required(),
     isRequired: Joi.boolean(),
-  }).xor("menuId", "dishId");
-  return schema.validate(data);
+  }).xor("menuId", "dishId"),
 };
 
 module.exports = {

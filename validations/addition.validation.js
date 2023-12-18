@@ -6,8 +6,8 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createAddition = (data) => {
-  const schema = Joi.object({
+const createAddition = {
+  body: Joi.object({
     groupId: Joi.string().custom(objectId).required(),
     restaurantId: Joi.string().custom(objectId).required(),
     categoryId: Joi.string().custom(objectId).required(),
@@ -15,8 +15,7 @@ const createAddition = (data) => {
     calories: Joi.string().required(),
     name: Joi.string().required(),
     price: Joi.number().required(),
-  });
-  return schema.validate(data);
+  }),
 };
 
 module.exports = {
