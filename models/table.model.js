@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const tableSchema = new mongoose.Schema(
   {
+    restaurantId: {
+      type: mongoose.ObjectId,
+      required: true,
+    },
     table_name: {
       type: String,
       required: true,

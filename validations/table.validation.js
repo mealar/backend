@@ -6,22 +6,22 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createTable = (data) => {
-  const schema = Joi.object({
+const createTable = {
+  body: Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
-    tableNumber: Joi.number().required(),
+    table_name: Joi.string().required(),
+    table_location: Joi.string().required(),
+    table_note: Joi.string().required(),
     seatingCapacity: Joi.number().required(),
     qrCode: Joi.string().required(),
     isActive: Joi.boolean(),
     createdBy: Joi.string().required(),
-  });
-  return schema.validate(data);
+  }),
 };
-const getTables = (data) => {
-  const schema = Joi.object({
+const getTables = {
+  params: Joi.object().keys({
     restaurantId: Joi.string().custom(objectId).required(),
-  });
-  return schema.validate(data);
+  }),
 };
 
 module.exports = {

@@ -9,6 +9,10 @@ router.post(
   validate(tableValidation.createTable),
   tableController.createTable
 );
-router.get("/", validate(tableValidation.getTables), tableController.getTables);
+router.get(
+  "/:restaurantId",
+  validate(tableValidation.getTables),
+  tableController.getTables
+);
 
 module.exports = router;
