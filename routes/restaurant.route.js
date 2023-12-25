@@ -5,7 +5,7 @@ const { restaurantValidation } = require("../validations");
 const validate = require("../utils/validate");
 
 router.get(
-  "/owner",
+  "/owner/:ownerId",
   validate(restaurantValidation.getOwnerRestaurants),
   restaurantController.getOwnerRestaurants
 );

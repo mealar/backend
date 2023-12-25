@@ -14,8 +14,11 @@ const getCategory = expressAsyncHandler(async (req, res) => {
   return res.status(httpStatus.OK).send(category);
 });
 const addCategorytoCategory = expressAsyncHandler(async (req, res) => {
-  const { cat1Id, cat2Id } = req.body;
-  const category = await CategoryService.addCategorytoCategory(cat1Id, cat2Id);
+  const { cat1Id } = req.body;
+  const category = await CategoryService.addCategorytoCategory(
+    cat1Id,
+    req.body
+  );
   return res.status(httpStatus.OK).send(category);
 });
 

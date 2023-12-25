@@ -6,15 +6,16 @@ const httpStatus = require("http-status");
 
 const createMenu = expressAsyncHandler(async (req, res) => {
   const { categoryId, restaurantId } = req.body;
-  const category = await Category.findById(categoryId);
-  if (!category) {
-    res.status(404).send({ message: "Category Not Found" });
-  }
   const menu = new Menu(req.body);
   const newMenu = await menu.save();
-  category.entities.menu.push(newMenu._id);
-  await category.save();
-  await updateCategoryInRestaurant(restaurantId, categoryId);
+  if (categoryId && categoryId.length > 0) {
+    categoryId.map(async (catId) => {
+      const category = await Category.findById(catId);
+      category.entities.menu.push(newMenu);
+      await category.save();
+      await updateCategoryInRestaurant(restaurantId, catId);
+    });
+  }
   res.status(201).json(newMenu);
 });
 

@@ -6,15 +6,16 @@ const httpStatus = require("http-status");
 
 const createDish = expressAsyncHandler(async (req, res) => {
   const { categoryId, restaurantId } = req.body;
-  const category = await Category.findById(categoryId);
-  if (!category) {
-    res.status(404).send({ message: "Category Not Found" });
-  }
   const dish = new Dish(req.body);
   const newDish = await dish.save();
-  category.entities.dish.push(newDish._id);
-  await category.save();
-  await updateCategoryInRestaurant(restaurantId, categoryId);
+  if (categoryId && categoryId.length > 0) {
+    categoryId.map(async (catId) => {
+      const category = await Category.findById(catId);
+      category.entities.dish.push(newDish);
+      await category.save();
+      await updateCategoryInRestaurant(restaurantId, catId);
+    });
+  }
   res.status(201).json(newDish);
 });
 
@@ -24,23 +25,7 @@ const getDishes = expressAsyncHandler(async (req, res) => {
   if (!restaurant) {
     res.status(404).send({ message: "Restaurant Not Found" });
   }
-  const dishes = await Dish.find()
-    .populate({
-      path: "additions",
-      select: "_id name additionObjects default isRequired",
-      populate: {
-        path: "additionObjects",
-        select: "_id name price calories",
-      },
-    })
-    .populate({
-      path: "additions",
-      select: "_id name additionObjects default",
-      populate: {
-        path: "default",
-        select: "_id name price calories",
-      },
-    });
+  const dishes = await Dish.find();
   if (!dishes) {
     res.status(404).send({ message: "Dishes Not Found" });
   }

@@ -7,6 +7,7 @@ const objectId = (value, helpers) => {
 };
 const createAdditionGroup = {
   body: Joi.object({
+    restaurantId: Joi.string().custom(objectId).required(),
     menuId: Joi.string().custom(objectId),
     dishId: Joi.string().custom(objectId),
     createdBy: Joi.string().required(),

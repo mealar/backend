@@ -15,6 +15,14 @@ const additionGroupSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: "addition",
     },
+    menuId: {
+      type: mongoose.ObjectId,
+      ref: "Menu",
+    },
+    dishId: {
+      type: mongoose.ObjectId,
+      ref: "Dish",
+    },
     createdBy: {
       type: String,
       required: true,

@@ -1,4 +1,43 @@
 const mongoose = require("mongoose");
+const { dishSchema } = require("./dish.model");
+const additionSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  calories: {
+    type: String,
+    required: true,
+  },
+  default: {
+    type: Boolean,
+  },
+});
+
+const additionGroupSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  additionObjects: [
+    {
+      type: additionSchema,
+    },
+  ],
+  default: {
+    type: additionSchema,
+  },
+  createdBy: {
+    type: String,
+    required: true,
+  },
+  isRequired: { type: Boolean, default: false },
+  lastModifiedBy: String,
+});
 
 const menuSchema = new mongoose.Schema(
   {
@@ -6,10 +45,12 @@ const menuSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       required: true,
     },
-    categoryId: {
-      type: mongoose.ObjectId,
-      required: true,
-    },
+    categoryId: [
+      {
+        type: mongoose.ObjectId,
+        required: true,
+      },
+    ],
     name: {
       type: String,
       required: true,
@@ -19,10 +60,9 @@ const menuSchema = new mongoose.Schema(
       required: true,
     },
     entities: {
-      dish: [{ type: mongoose.ObjectId, ref: "dish" }],
-      menu: [{ type: mongoose.ObjectId, ref: "menu" }],
+      dish: [{ type: dishSchema }],
     },
-    additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
+    additions: [{ type: additionGroupSchema }],
     isActive: Boolean,
     createdBy: String,
     expiryDateTime: Date,
@@ -40,9 +80,9 @@ const menuSchema = new mongoose.Schema(
 );
 menuSchema.add({
   entities: {
-    menu: [{ type: mongoose.ObjectId }],
+    menu: [{ type: menuSchema }],
   },
 });
 const Menu = mongoose.model("Menu", menuSchema);
 
-module.exports = Menu;
+module.exports = { Menu, menuSchema };

@@ -9,7 +9,7 @@ const objectId = (value, helpers) => {
 const createDish = {
   body: Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
-    categoryId: Joi.string().custom(objectId).required(),
+    categoryId: Joi.array().items(Joi.string().custom(objectId)).min(1),
     name: Joi.string().required().max(30),
     description: Joi.string().required().max(100),
     ingredients: Joi.array().items({

@@ -6,11 +6,22 @@ const objectId = (value, helpers) => {
   return value;
 };
 
-const createAddition = {
+const createAdditionForDish = {
   body: Joi.object({
-    groupId: Joi.string().custom(objectId).required(),
+    groupName: Joi.string().required(),
     restaurantId: Joi.string().custom(objectId).required(),
-    categoryId: Joi.string().custom(objectId).required(),
+    dishId: Joi.string().custom(objectId).required(),
+    default: Joi.boolean(),
+    calories: Joi.string().required(),
+    name: Joi.string().required(),
+    price: Joi.number().required(),
+  }),
+};
+const createAdditionForMenu = {
+  body: Joi.object({
+    groupName: Joi.string().required(),
+    restaurantId: Joi.string().custom(objectId).required(),
+    menuId: Joi.string().custom(objectId).required(),
     default: Joi.boolean(),
     calories: Joi.string().required(),
     name: Joi.string().required(),
@@ -19,5 +30,6 @@ const createAddition = {
 };
 
 module.exports = {
-  createAddition,
+  createAdditionForDish,
+  createAdditionForMenu,
 };

@@ -8,7 +8,8 @@ const objectId = (value, helpers) => {
 
 const createMenu = {
   body: Joi.object({
-    categoryId: Joi.string().custom(objectId).required(),
+    restaurantId: Joi.string().custom(objectId).required(),
+    categoryId: Joi.array().items(Joi.string().custom(objectId)).min(1),
     name: Joi.string().required().max(30),
     description: Joi.string().required().max(100),
     isActive: Joi.boolean().default(false),

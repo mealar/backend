@@ -28,10 +28,13 @@ const createRestaurant = async (body) => {
 };
 
 const getRestaurant = async (restaurantId) => {
-  const restaurant = await Restaurant.findById(restaurantId);
+  const restaurant = await Restaurant.findById(restaurantId).select(
+    "-orders -tables"
+  );
   if (!restaurant) {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }
+
   return restaurant;
 };
 

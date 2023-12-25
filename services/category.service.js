@@ -4,35 +4,7 @@ const { Category, Restaurant } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 const getCategory = async (categoryId) => {
-  const category = await Category.findById(categoryId)
-    .populate({
-      path: "entities.dish",
-      model: "Dish",
-      populate: {
-        path: "additions",
-        model: "additionGroup",
-        populate: {
-          path: "additionObjects",
-          model: "addition",
-        },
-      },
-    })
-    .populate({
-      path: "entities.menu",
-      model: "Menu",
-      populate: {
-        path: "additions",
-        model: "additionGroup",
-        populate: {
-          path: "additionObjects",
-          model: "addition",
-        },
-      },
-    })
-    .populate({
-      path: "entities.category",
-      model: "Category",
-    });
+  const category = await Category.findById(categoryId);
   return category;
 };
 
@@ -66,14 +38,16 @@ const updateCategoryInRestaurant = async (restaurantId, categoryId) => {
     return "Category Not Updated in restaurant.";
   }
 };
-const addCategorytoCategory = async (cat1Id, cat2Id) => {
+const addCategorytoCategory = async (cat1Id, body) => {
   const category1 = await Category.findById(cat1Id);
   if (!category1) {
     throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
   }
-  category1.entities.category.push(cat2Id);
+  const category = new Category(body);
+  const newCategory = await category.save();
+  category1.entities.category.push(newCategory);
   category1.save();
-  updateCategoryInRestaurant(category1.restaurantId, cat1Id);
+  updateCategoryInRestaurant(category1.restaurantId, newCategory._id);
   return category1;
 };
 

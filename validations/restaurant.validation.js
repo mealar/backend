@@ -7,7 +7,7 @@ const objectId = (value, helpers) => {
 };
 
 const getOwnerRestaurants = {
-  body: Joi.object().keys({
+  params: Joi.object().keys({
     ownerId: Joi.string().required(),
   }),
 };

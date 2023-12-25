@@ -5,9 +5,14 @@ const { additionValidation } = require("../validations");
 const validate = require("../utils/validate");
 
 router.post(
-  "/",
-  validate(additionValidation.createAddition),
-  additionController.createAddition
+  "/dish",
+  validate(additionValidation.createAdditionForDish),
+  additionController.createAdditionForDish
+);
+router.post(
+  "/menu",
+  validate(additionValidation.createAdditionForMenu),
+  additionController.createAdditionForMenu
 );
 
 module.exports = router;

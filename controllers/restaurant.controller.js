@@ -3,7 +3,7 @@ const { RestaurantService } = require("../services");
 const httpStatus = require("http-status");
 
 const getOwnerRestaurants = expressAsyncHandler(async (req, res) => {
-  const { ownerId } = req.body;
+  const { ownerId } = req.params;
   const restaurants = await RestaurantService.getOwnerRestaurants(ownerId);
   if (!restaurants) {
     return res.status(httpStatus.NOT_FOUND).send.error({
@@ -36,9 +36,7 @@ const getRestaurant = expressAsyncHandler(async (req, res) => {
   const { restaurantId } = req.params;
   const restaurant = await RestaurantService.getRestaurant(restaurantId);
   if (!restaurant) {
-    return res.status(httpStatus.NOT_FOUND).send.error({
-      message: "Restaurant not found",
-    });
+    throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }
   return res.status(httpStatus.OK).send(restaurant);
 });

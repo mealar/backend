@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { dishSchema } = require("./dish.model");
+const { menuSchema } = require("./menu.model");
 
 const categorySchema = new mongoose.Schema(
   {
@@ -17,20 +19,12 @@ const categorySchema = new mongoose.Schema(
     entities: {
       dish: [
         {
-          type: mongoose.ObjectId,
-          ref: "Dish",
+          type: dishSchema,
         },
       ],
       menu: [
         {
-          type: mongoose.ObjectId,
-          ref: "Menu",
-        },
-      ],
-      category: [
-        {
-          type: mongoose.ObjectId,
-          ref: "Category",
+          type: menuSchema,
         },
       ],
     },
@@ -49,6 +43,10 @@ const categorySchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
+categorySchema.add({
+  entities: {
+    category: [{ type: categorySchema }],
+  },
+});
 const Category = mongoose.model("Category", categorySchema);
-module.exports = Category;
+module.exports = { Category, categorySchema };

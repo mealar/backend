@@ -1,4 +1,41 @@
 const mongoose = require("mongoose");
+const additionSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  calories: {
+    type: String,
+    required: true,
+  },
+  default: {
+    type: Boolean,
+  },
+});
+
+const additionGroupSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true,
+  },
+  additionObjects: [
+    {
+      type: additionSchema,
+    },
+  ],
+  default: {
+    type: additionSchema,
+  },
+  createdBy: {
+    type: String,
+  },
+  isRequired: { type: Boolean, default: false },
+  lastModifiedBy: String,
+});
 
 const dishSchema = new mongoose.Schema(
   {
@@ -6,10 +43,12 @@ const dishSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       required: true,
     },
-    categoryId: {
-      type: mongoose.ObjectId,
-      required: true,
-    },
+    categoryId: [
+      {
+        type: mongoose.ObjectId,
+        required: true,
+      },
+    ],
     name: {
       type: String,
       required: true,
@@ -18,10 +57,8 @@ const dishSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    entities: {
-      dish: [{ type: mongoose.ObjectId, ref: "dish" }],
-    },
-    additions: [{ type: mongoose.ObjectId, ref: "additionGroup" }],
+
+    additions: [{ type: additionGroupSchema }],
     ingredients: [
       {
         name: String,
@@ -50,7 +87,11 @@ const dishSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
+dishSchema.add({
+  entities: {
+    dish: [{ type: dishSchema }],
+  },
+});
 const Dish = mongoose.model("Dish", dishSchema);
 
-module.exports = Dish;
+module.exports = { Dish, dishSchema };
