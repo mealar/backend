@@ -9,4 +9,4 @@ services:
     env_file:
       - .env
     ports:
-      - ${PORT}:${PORT}
+      - ${PORT_API}:${PORT_API}

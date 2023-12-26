@@ -1,5 +1,5 @@
 # development stage
-FROM node:20.10-alpine as base
+FROM node:14-alpine as base
 
 ENV NODE_ENV=production
 
@@ -9,7 +9,7 @@ COPY package.json package-lock.json ./
 
 COPY . .
 
-RUN npm install --pure-lockfile && npm compile
+RUN npm install
 
 EXPOSE 5000
 
