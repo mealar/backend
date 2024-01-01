@@ -81,13 +81,15 @@ const orderSchema = new mongoose.Schema(
         type: mongoose.ObjectId,
         required: true,
       },
-      tableNumber: { type: Number, required: true },
-      seatingCapacity: { type: Number, required: true },
       qrCode: { type: String, required: true },
     },
     dishes: [DishSchema],
     menus: [MenuSchema],
     totalPrice: Number,
+    user: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

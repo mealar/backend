@@ -14,5 +14,10 @@ router.get(
   validate(orderValidation.getOrders),
   orderController.getOrders
 );
+router.get(
+  "/user/:userId",
+  validate(orderValidation.getUserOrders),
+  orderController.getUserOrders
+);
 
 module.exports = router;

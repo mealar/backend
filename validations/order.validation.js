@@ -9,10 +9,9 @@ const objectId = (value, helpers) => {
 const createOrder = {
   body: Joi.object({
     restaurantId: Joi.string().custom(objectId).required(),
+    user: Joi.string().required(),
     deliveryTable: Joi.object({
       tableId: Joi.string().custom(objectId).required(),
-      tableNumber: Joi.number().required(),
-      seatingCapacity: Joi.number().required(),
       qrCode: Joi.string().required(),
     }).required(),
     dishes: Joi.array().items({
@@ -46,8 +45,14 @@ const getOrders = {
     restaurantId: Joi.string().custom(objectId).required(),
   }),
 };
+const getUserOrders = {
+  params: Joi.object().keys({
+    userId: Joi.string().required(),
+  }),
+};
 
 module.exports = {
   createOrder,
   getOrders,
+  getUserOrders,
 };
