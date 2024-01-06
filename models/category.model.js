@@ -19,12 +19,14 @@ const categorySchema = new mongoose.Schema(
     entities: {
       dish: [
         {
-          type: dishSchema,
+          type: mongoose.ObjectId,
+          ref: "Dish",
         },
       ],
       menu: [
         {
-          type: menuSchema,
+          type: mongoose.ObjectId,
+          ref: "Menu",
         },
       ],
     },
@@ -45,7 +47,7 @@ const categorySchema = new mongoose.Schema(
 );
 categorySchema.add({
   entities: {
-    category: [{ type: categorySchema }],
+    category: [{ type: mongoose.ObjectId, ref: "Category" }],
   },
 });
 const Category = mongoose.model("Category", categorySchema);

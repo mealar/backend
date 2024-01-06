@@ -89,7 +89,7 @@ const dishSchema = new mongoose.Schema(
 );
 dishSchema.add({
   entities: {
-    dish: [{ type: dishSchema }],
+    dish: [{ type: mongoose.ObjectId, ref: "Dish" }],
   },
 });
 const Dish = mongoose.model("Dish", dishSchema);

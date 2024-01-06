@@ -1,9 +1,9 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Dish, Menu } = require("../models");
-const { updateCategoryInRestaurant } = require("../services/category.service");
+// const { updateCategoryInRestaurant } = require("../services/category.service");
 
 const createAdditionForDish = expressAsyncHandler(async (req, res) => {
-  const { dishId, restaurantId, groupName } = req.body;
+  const { dishId, groupName } = req.body;
   const dish = await Dish.findOne({ _id: dishId });
   const addition = {
     name: req.body.name,
@@ -16,11 +16,11 @@ const createAdditionForDish = expressAsyncHandler(async (req, res) => {
     group.additionObjects.push(addition);
     if (req.body.default) group.default = addition;
     await dish.save();
-    if (dish.categoryId && dish.categoryId.length > 0) {
-      dish.categoryId.map(async (catId) => {
-        await updateCategoryInRestaurant(restaurantId, catId);
-      });
-    }
+    // if (dish.categoryId && dish.categoryId.length > 0) {
+    //   dish.categoryId.map(async (catId) => {
+    //     await updateCategoryInRestaurant(restaurantId, catId);
+    //   });
+    // }
 
     res.status(201).json(dish);
   } catch (err) {
@@ -28,7 +28,7 @@ const createAdditionForDish = expressAsyncHandler(async (req, res) => {
   }
 });
 const createAdditionForMenu = expressAsyncHandler(async (req, res) => {
-  const { menuId, restaurantId, groupName } = req.body;
+  const { menuId, groupName } = req.body;
   const menu = await Menu.findOne({ _id: menuId });
   const addition = {
     name: req.body.name,
@@ -41,11 +41,11 @@ const createAdditionForMenu = expressAsyncHandler(async (req, res) => {
     group.additionObjects.push(addition);
     if (req.body.default) group.default = addition;
     await menu.save();
-    if (menu.categoryId && menu.categoryId.length > 0) {
-      menu.categoryId.map(async (catId) => {
-        await updateCategoryInRestaurant(restaurantId, catId);
-      });
-    }
+    // if (menu.categoryId && menu.categoryId.length > 0) {
+    //   menu.categoryId.map(async (catId) => {
+    //     await updateCategoryInRestaurant(restaurantId, catId);
+    //   });
+    // }
 
     res.status(201).json(menu);
   } catch (err) {

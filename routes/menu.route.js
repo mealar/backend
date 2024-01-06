@@ -9,11 +9,6 @@ router.post(
   validate(menuValidation.createMenu),
   menuController.createMenu
 );
-router.get(
-  "/:restaurantId",
-  validate(menuValidation.getMenus),
-  menuController.getMenus
-);
 router.post(
   "/add-menu",
   validate(menuValidation.addMenutoMenu),

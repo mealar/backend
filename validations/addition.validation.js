@@ -9,7 +9,7 @@ const objectId = (value, helpers) => {
 const createAdditionForDish = {
   body: Joi.object({
     groupName: Joi.string().required(),
-    restaurantId: Joi.string().custom(objectId).required(),
+    restaurantId: Joi.string().custom(objectId),
     dishId: Joi.string().custom(objectId).required(),
     default: Joi.boolean(),
     calories: Joi.string().required(),
@@ -20,7 +20,7 @@ const createAdditionForDish = {
 const createAdditionForMenu = {
   body: Joi.object({
     groupName: Joi.string().required(),
-    restaurantId: Joi.string().custom(objectId).required(),
+    restaurantId: Joi.string().custom(objectId),
     menuId: Joi.string().custom(objectId).required(),
     default: Joi.boolean(),
     calories: Joi.string().required(),

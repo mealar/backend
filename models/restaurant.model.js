@@ -26,7 +26,8 @@ const restaurantSchema = new mongoose.Schema(
     },
     categories: [
       {
-        type: categorySchema,
+        type: mongoose.ObjectId,
+        ref: "Category",
       },
     ],
 
@@ -84,20 +85,6 @@ const restaurantSchema = new mongoose.Schema(
         required: true,
       },
     },
-    tables: [
-      {
-        type: mongoose.ObjectId,
-        required: true,
-        ref: "Table",
-      },
-    ],
-    orders: [
-      {
-        type: mongoose.ObjectId,
-        required: true,
-        ref: "Order",
-      },
-    ],
   },
 
   {

@@ -20,24 +20,24 @@ const createCategory = async (body) => {
   return newCategory;
 };
 
-const updateCategoryInRestaurant = async (restaurantId, categoryId) => {
-  const restaurant = await Restaurant.findById(restaurantId);
-  if (!restaurant) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
-  }
-  const catId = new mongoose.Types.ObjectId(categoryId);
-  const categoryIndex = restaurant.categories.findIndex(
-    (category) => category._id.toString() === catId.toString()
-  );
-  if (categoryIndex !== -1) {
-    const updatedCategory = await getCategory(categoryId);
-    restaurant.categories[categoryIndex] = updatedCategory;
-    await restaurant.save();
-    return "Category Updated in restaurant Successfully .";
-  } else {
-    return "Category Not Updated in restaurant.";
-  }
-};
+// const updateCategoryInRestaurant = async (restaurantId, categoryId) => {
+//   const restaurant = await Restaurant.findById(restaurantId);
+//   if (!restaurant) {
+//     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
+//   }
+//   const catId = new mongoose.Types.ObjectId(categoryId);
+//   const categoryIndex = restaurant.categories.findIndex(
+//     (category) => category._id.toString() === catId.toString()
+//   );
+//   if (categoryIndex !== -1) {
+//     const updatedCategory = await getCategory(categoryId);
+//     restaurant.categories[categoryIndex] = updatedCategory;
+//     await restaurant.save();
+//     return "Category Updated in restaurant Successfully .";
+//   } else {
+//     return "Category Not Updated in restaurant.";
+//   }
+// };
 const addCategorytoCategory = async (cat1Id, body) => {
   const category1 = await Category.findById(cat1Id);
   if (!category1) {
@@ -47,13 +47,13 @@ const addCategorytoCategory = async (cat1Id, body) => {
   const newCategory = await category.save();
   category1.entities.category.push(newCategory);
   category1.save();
-  updateCategoryInRestaurant(category1.restaurantId, newCategory._id);
+  // updateCategoryInRestaurant(category1.restaurantId, newCategory._id);
   return category1;
 };
 
 module.exports = {
   getCategory,
   createCategory,
-  updateCategoryInRestaurant,
+  // updateCategoryInRestaurant,
   addCategorytoCategory,
 };

@@ -60,7 +60,7 @@ const menuSchema = new mongoose.Schema(
       required: true,
     },
     entities: {
-      dish: [{ type: dishSchema }],
+      dish: [{ type: mongoose.ObjectId, ref: "Dish" }],
     },
     additions: [{ type: additionGroupSchema }],
     isActive: Boolean,
@@ -80,7 +80,7 @@ const menuSchema = new mongoose.Schema(
 );
 menuSchema.add({
   entities: {
-    menu: [{ type: menuSchema }],
+    menu: [{ type: mongoose.ObjectId, ref: "Menu" }],
   },
 });
 const Menu = mongoose.model("Menu", menuSchema);

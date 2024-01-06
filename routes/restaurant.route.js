@@ -19,6 +19,11 @@ router.get(
   validate(restaurantValidation.getRestaurant),
   restaurantController.getRestaurant
 );
+router.get(
+  "/with-cat/:restaurantId",
+  validate(restaurantValidation.getRestaurant),
+  restaurantController.getRestaurantwithAllCategories
+);
 router.put(
   "/:restaurantId",
   validate(restaurantValidation.updateRestaurant),

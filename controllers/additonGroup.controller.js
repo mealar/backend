@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
 const { AdditionGroup, Dish, Menu, Restaurant } = require("../models");
-const { updateCategoryInRestaurant } = require("../services/category.service");
+// const { updateCategoryInRestaurant } = require("../services/category.service");
 
 const createAdditionGroup = expressAsyncHandler(async (req, res) => {
   const { menuId, dishId, restaurantId } = req.body;
@@ -13,11 +13,11 @@ const createAdditionGroup = expressAsyncHandler(async (req, res) => {
     const dish = await Dish.findOne({ _id: dishId });
     dish.additions.push(group);
     await dish.save();
-    if (dish.categoryId && dish.categoryId.length > 0) {
-      dish.categoryId.map(async (catId) => {
-        await updateCategoryInRestaurant(restaurantId, catId);
-      });
-    }
+    // if (dish.categoryId && dish.categoryId.length > 0) {
+    //   dish.categoryId.map(async (catId) => {
+    //     await updateCategoryInRestaurant(restaurantId, catId);
+    //   });
+    // }
     if (!dish) {
       res.status(404).send({ message: "Dish Not Found" });
     }
@@ -26,11 +26,11 @@ const createAdditionGroup = expressAsyncHandler(async (req, res) => {
     const menu = await Menu.findOne({ _id: menuId });
     menu.additions.push(group);
     await menu.save();
-    if (menu.categoryId && menu.categoryId.length > 0) {
-      menu.categoryId.map(async (catId) => {
-        await updateCategoryInRestaurant(restaurantId, catId);
-      });
-    }
+    // if (menu.categoryId && menu.categoryId.length > 0) {
+    //   menu.categoryId.map(async (catId) => {
+    //     await updateCategoryInRestaurant(restaurantId, catId);
+    //   });
+    // }
     if (!menu) {
       res.status(404).send({ message: "Menu Not Found" });
     }

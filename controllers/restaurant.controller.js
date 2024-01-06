@@ -12,6 +12,7 @@ const getOwnerRestaurants = expressAsyncHandler(async (req, res) => {
   }
   return res.status(httpStatus.OK).send(restaurants);
 });
+
 const getAllRestaurants = expressAsyncHandler(async (req, res) => {
   const restaurants = await RestaurantService.getAllRestaurants();
   if (!restaurants) {
@@ -35,6 +36,17 @@ const createRestaurant = expressAsyncHandler(async (req, res) => {
 const getRestaurant = expressAsyncHandler(async (req, res) => {
   const { restaurantId } = req.params;
   const restaurant = await RestaurantService.getRestaurant(restaurantId);
+  if (!restaurant) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
+  }
+  return res.status(httpStatus.OK).send(restaurant);
+});
+
+const getRestaurantwithAllCategories = expressAsyncHandler(async (req, res) => {
+  const { restaurantId } = req.params;
+  const restaurant = await RestaurantService.getRestaurantwithAllCategories(
+    restaurantId
+  );
   if (!restaurant) {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }
@@ -69,6 +81,7 @@ const deleteRestaurant = expressAsyncHandler(async (req, res) => {
     message: "Restaurant is deleted",
   });
 });
+
 const selectMenu = expressAsyncHandler(async (req, res) => {
   const { restaurantId, menuId } = req.body;
   const selectedMenu = await RestaurantService.selectMenu(restaurantId, menuId);
@@ -82,6 +95,7 @@ module.exports = {
   getOwnerRestaurants,
   getAllRestaurants,
   getRestaurant,
+  getRestaurantwithAllCategories,
   updateRestaurant,
   selectMenu,
 };

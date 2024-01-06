@@ -1,11 +1,11 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Category, Restaurant, Menu } = require("../models");
-const { updateCategoryInRestaurant } = require("../services/category.service");
+// const { updateCategoryInRestaurant } = require("../services/category.service");
 const { menuService } = require("../services");
 const httpStatus = require("http-status");
 
 const createMenu = expressAsyncHandler(async (req, res) => {
-  const { categoryId, restaurantId } = req.body;
+  const { categoryId } = req.body;
   const menu = new Menu(req.body);
   const newMenu = await menu.save();
   if (categoryId && categoryId.length > 0) {
@@ -13,39 +13,10 @@ const createMenu = expressAsyncHandler(async (req, res) => {
       const category = await Category.findById(catId);
       category.entities.menu.push(newMenu);
       await category.save();
-      await updateCategoryInRestaurant(restaurantId, catId);
+      // await updateCategoryInRestaurant(restaurantId, catId);
     });
   }
   res.status(201).json(newMenu);
-});
-
-const getMenus = expressAsyncHandler(async (req, res) => {
-  const { restaurantId } = req.params;
-  const restaurant = await Restaurant.findOne({ _id: restaurantId });
-  if (!restaurant) {
-    res.status(404).send({ message: "Restaurant Not Found" });
-  }
-  const menus = await Menu.find()
-    .populate({
-      path: "additions",
-      select: "_id name additionObjects default",
-      populate: {
-        path: "additionObjects",
-        select: "_id name price calories",
-      },
-    })
-    .populate({
-      path: "additions",
-      select: "_id name additionObjects default",
-      populate: {
-        path: "default",
-        select: "_id name price calories",
-      },
-    });
-  if (!menus) {
-    res.status(404).send({ message: "Menus Not Found" });
-  }
-  res.status(201).json(menus);
 });
 
 const addMenutoMenu = expressAsyncHandler(async (req, res) => {
@@ -59,6 +30,5 @@ const addMenutoMenu = expressAsyncHandler(async (req, res) => {
 
 module.exports = {
   createMenu,
-  getMenus,
   addMenutoMenu,
 };

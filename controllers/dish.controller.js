@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Dish, Restaurant, Category } = require("../models");
-const { updateCategoryInRestaurant } = require("../services/category.service");
+// const { updateCategoryInRestaurant } = require("../services/category.service");
 const { dishService } = require("../services");
 const httpStatus = require("http-status");
 
@@ -13,7 +13,7 @@ const createDish = expressAsyncHandler(async (req, res) => {
       const category = await Category.findById(catId);
       category.entities.dish.push(newDish);
       await category.save();
-      await updateCategoryInRestaurant(restaurantId, catId);
+      // await updateCategoryInRestaurant(restaurantId, catId);
     });
   }
   res.status(201).json(newDish);

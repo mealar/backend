@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const { Dish, Menu } = require("../models");
 const ApiError = require("../utils/ApiError");
-const { updateCategoryInRestaurant } = require("./category.service");
+// const { updateCategoryInRestaurant } = require("./category.service");
 
 const addDishtoDish = async (dish1Id, dish2Id) => {
   const dish1 = await Dish.findById(dish1Id);
@@ -11,7 +11,7 @@ const addDishtoDish = async (dish1Id, dish2Id) => {
   const dish2 = await Dish.findById(dish2Id);
   dish1.entities.dish.push(dish2);
   dish1.save();
-  updateCategoryInRestaurant(dish1.restaurantId, dish1.categoryId);
+  // updateCategoryInRestaurant(dish1.restaurantId, dish1.categoryId);
   return dish1;
 };
 const addDishtoMenu = async (dishId, menuId) => {
@@ -22,7 +22,7 @@ const addDishtoMenu = async (dishId, menuId) => {
   const dish = await Dish.findById(dishId);
   menu.entities.dish.push(dish);
   menu.save();
-  updateCategoryInRestaurant(menu.restaurantId, menu.categoryId);
+  // updateCategoryInRestaurant(menu.restaurantId, menu.categoryId);
   return menu;
 };
 
