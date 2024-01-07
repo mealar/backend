@@ -9,6 +9,9 @@ const addDishtoDish = async (dish1Id, dish2Id) => {
     throw new ApiError(httpStatus.NOT_FOUND, "Dish not found");
   }
   const dish2 = await Dish.findById(dish2Id);
+  if (!dish2) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Dish not found");
+  }
   dish1.entities.dish.push(dish2);
   dish1.save();
   // updateCategoryInRestaurant(dish1.restaurantId, dish1.categoryId);
@@ -17,9 +20,12 @@ const addDishtoDish = async (dish1Id, dish2Id) => {
 const addDishtoMenu = async (dishId, menuId) => {
   const menu = await Menu.findById(menuId);
   if (!menu) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Dish not found");
+    throw new ApiError(httpStatus.NOT_FOUND, "Menu not found");
   }
   const dish = await Dish.findById(dishId);
+  if (!dish) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Dish not found");
+  }
   menu.entities.dish.push(dish);
   menu.save();
   // updateCategoryInRestaurant(menu.restaurantId, menu.categoryId);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { dishSchema } = require("./dish.model");
+const { Dish } = require("./dish.model");
 const additionSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -82,6 +82,20 @@ menuSchema.add({
   entities: {
     menu: [{ type: mongoose.ObjectId, ref: "Menu" }],
   },
+});
+
+menuSchema.pre("save", async function (next) {
+  try {
+    const menu = this;
+    await menu.populate("entities.dish", "additions").execPopulate();
+    menu.entities.dish.forEach((dish) => {
+      menu.additions.push(...dish.additions);
+    });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 const Menu = mongoose.model("Menu", menuSchema);
 

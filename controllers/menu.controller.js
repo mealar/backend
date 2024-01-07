@@ -28,7 +28,17 @@ const addMenutoMenu = expressAsyncHandler(async (req, res) => {
   return res.status(httpStatus.OK).send(menu);
 });
 
+const getMenu = expressAsyncHandler(async (req, res) => {
+  const { menuId } = req.params;
+  const menu = await menuService.getMenu(menuId);
+  if (!menu) {
+    res.status(404).send({ message: "Menu Not Found" });
+  }
+  return res.status(httpStatus.OK).send(menu);
+});
+
 module.exports = {
   createMenu,
   addMenutoMenu,
+  getMenu,
 };

@@ -13,7 +13,15 @@ const addMenutoMenu = async (menu1Id, menu2Id) => {
   // updateCategoryInRestaurant(menu1.restaurantId, menu1.categoryId);
   return menu1;
 };
+const getMenu = async (menuId) => {
+  const menu = await Menu.findById(menuId);
+  if (!menu) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Menu not found");
+  }
+  return menu;
+};
 
 module.exports = {
   addMenutoMenu,
+  getMenu,
 };

@@ -11,7 +11,7 @@ const createDish = {
     restaurantId: Joi.string().custom(objectId).required(),
     categoryId: Joi.array().items(Joi.string().custom(objectId)).min(1),
     name: Joi.string().required().max(30),
-    description: Joi.string().required().max(100),
+    description: Joi.string().required().max(200),
     ingredients: Joi.array().items({
       name: Joi.string(),
       optional: Joi.boolean(),

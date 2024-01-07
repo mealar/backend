@@ -14,5 +14,10 @@ router.post(
   validate(menuValidation.addMenutoMenu),
   menuController.addMenutoMenu
 );
+router.get(
+  "/:menuId",
+  validate(menuValidation.getMenu),
+  menuController.getMenu
+);
 
 module.exports = router;

@@ -39,9 +39,15 @@ const addMenutoMenu = {
     menu2Id: Joi.string().custom(objectId).required(),
   }),
 };
+const getMenu = {
+  params: Joi.object().keys({
+    menuId: Joi.string().custom(objectId).required(),
+  }),
+};
 
 module.exports = {
   createMenu,
   getMenus,
   addMenutoMenu,
+  getMenu,
 };

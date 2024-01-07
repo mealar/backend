@@ -28,9 +28,15 @@ const createRestaurant = async (body) => {
 };
 
 const getRestaurant = async (restaurantId) => {
-  const restaurant = await Restaurant.findById(restaurantId).select(
-    "-orders -tables"
-  );
+  const restaurant = await Restaurant.findById(restaurantId)
+    .populate({
+      path: "categories",
+      populate: {
+        path: "entities.dish",
+        model: "Dish",
+      },
+    })
+    .select("-orders -tables");
   if (!restaurant) {
     throw new ApiError(httpStatus.NOT_FOUND, "Restaurant not found");
   }
