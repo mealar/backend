@@ -10,6 +10,7 @@ const authRoutesWebApp = require("./auth/authRoutesWebApp");
 const tableRoute = require("./table.route");
 const orderRoute = require("./order.route");
 const uploadRoute = require("./upload.route");
+const authRoute = require("./auth.route");
 
 const router = express.Router();
 
@@ -57,6 +58,10 @@ const defaultRoutes = [
   {
     path: "/upload",
     route: uploadRoute,
+  },
+  {
+    path: "/auth",
+    route: authRoute,
   },
 ];
 defaultRoutes.forEach((route) => {

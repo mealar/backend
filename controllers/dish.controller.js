@@ -31,6 +31,7 @@ const getDishes = expressAsyncHandler(async (req, res) => {
   }
   res.status(201).json(dishes);
 });
+
 const addDishtoDish = expressAsyncHandler(async (req, res) => {
   const { dish1Id, dish2Id } = req.body;
   const dish = await dishService.addDishtoDish(dish1Id, dish2Id);
@@ -39,6 +40,7 @@ const addDishtoDish = expressAsyncHandler(async (req, res) => {
   }
   return res.status(httpStatus.OK).send(dish);
 });
+
 const addDishtoMenu = expressAsyncHandler(async (req, res) => {
   const { dishId, menuId } = req.body;
   const dish = await dishService.addDishtoMenu(dishId, menuId);
@@ -47,9 +49,21 @@ const addDishtoMenu = expressAsyncHandler(async (req, res) => {
   }
   return res.status(httpStatus.OK).send(dish);
 });
+
+const addImageDish = expressAsyncHandler(async (req, res) => {
+  const { dishId } = req.params;
+  const dish = await Dish.findById(dishId);
+  if (!dish) {
+    res.status(404).send({ message: "Dish Not Found" });
+  }
+  dish.images = req.body.images;
+  await dish.save();
+  return res.status(httpStatus.OK).send(dish);
+});
 module.exports = {
   createDish,
   getDishes,
   addDishtoDish,
   addDishtoMenu,
+  addImageDish,
 };

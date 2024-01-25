@@ -20,5 +20,6 @@ router.post(
   validate(dishValidation.addDishtoMenu),
   dishController.addDishtoMenu
 );
+router.post("/add-image/:dishId", dishController.addImageDish);
 
 module.exports = router;

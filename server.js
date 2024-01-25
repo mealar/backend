@@ -5,10 +5,10 @@ const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const session = require("express-session");
 const cors = require("cors");
-const routes = require("./routes");
 const swaggerUI = require("swagger-ui-express");
 const path = require("path");
-// const { auth } = require("express-openid-connect");
+const { auth } = require("express-openid-connect");
+const routes = require("./routes");
 const swaggerDocument = require("./swagger.json");
 
 //----Local Imports----//
@@ -21,25 +21,25 @@ const {
   setHeadersConfig,
 } = require("./configurations/generalConfigs");
 dotenv.config();
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.SECRET,
+  baseURL: process.env.BASE_URL,
+  clientID: process.env.CLIENT_ID,
+  issuerBaseURL: process.env.ISSUER,
+};
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "..", "public")));
-// app.use(
-//   auth({
-//     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-//     baseURL: process.env.BASE_URL,
-//     clientID: process.env.AUTH0_CLIENT_ID,
-//     secret: process.env.SESSION_SECRET,
-//     authRequired: false,
-//     auth0Logout: true,
-//   })
-// );
-// app.use((req, res, next) => {
-//   res.locals.isAuthenticated = req.oidc.isAuthenticated();
-//   next();
-// });
+
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
+
 app.use(session(sessionConfig));
 app.use(cors(corsConfig));
 //app.use(cookieParser(cookieParserConfig));
